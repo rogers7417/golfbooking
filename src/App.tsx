@@ -61,6 +61,7 @@ const SCENES: Scene[] = [
     imageUrl:
       "https://images.pexels.com/photos/1325661/pexels-photo-1325661.jpeg",
   }
+  
 ];
 
 const PRODUCT_ARTWORKS: ProductArtwork[] = [
