@@ -1,0 +1,567 @@
+/* src/App.css */
+
+/* =============== Global ==================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Segoe UI", sans-serif;
+  color-scheme: light;
+
+  --bg-main: #ffffff;
+  --bg-footer: #f8f9fa;
+
+  --text-main: #111827;
+  --text-muted: #6b7280;
+
+  --accent: #4f46e5;
+  --accent-soft: #eef2ff;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+button {
+  font-family: inherit;
+}
+
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =============== Header ==================== */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(18px);
+  background: rgba(15, 15, 15, 0.88); /* 검정 헤더 */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.nav {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.nav-link {
+  border: none;
+  background: transparent;
+  color: #e5e7eb;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.nav-link-active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.nav-cta {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: transparent;
+  color: #ffffff;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+/* =============== Main ====================== */
+
+.main {
+  flex: 1;
+}
+
+/* =============== Hero / Carousel =========== */
+
+.hero {
+  position: relative;
+  height: calc(100vh - 56px); /* 헤더 제외 풀뷰 */
+  overflow: hidden;
+  background: #000; /* 이미지 로딩 전 기본 배경 */
+}
+
+/* 슬라이드 래퍼 */
+.hero-scene-wrapper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity 700ms ease, transform 1200ms ease;
+  pointer-events: none;
+}
+
+.hero-scene-active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* 배경 이미지 */
+.hero-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  filter: brightness(0.9) contrast(1.05);
+  transform: scale(1.04);
+}
+
+/* 어두운 오버레이 – 텍스트 가독성 확보 */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.45),
+      rgba(0, 0, 0, 0.15)
+    ),
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.25),
+      transparent
+    );
+}
+
+/* 슬라이드 내용 */
+
+.hero-content {
+  position: relative;
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 72px 20px 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .hero-content {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 56px;
+    padding-bottom: 32px;
+  }
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f1f5f9;
+  margin-bottom: 12px;
+}
+
+.hero-title {
+  margin: 0 0 10px;
+  font-size: 38px;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: #ffffff; /* 흰색 제목 */
+}
+
+.hero-subtitle-text {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #e2e8f0; /* 연한 흰색 */
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-description {
+  margin: 0 0 20px;
+  font-size: 13px;
+  line-height: 1.7;
+  max-width: 460px;
+  color: #cbd5e1; /* 아주 연한 회색 */
+}
+
+.hero-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.primary-btn {
+  border-radius: 999px;
+  border: none;
+  padding: 9px 18px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: #ffffff;
+  color: #111827;
+}
+
+.ghost-btn {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 8px 16px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* =============== Controls / Caption ======== */
+
+.hero-controls {
+  position: absolute;
+  bottom: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.hero-arrow {
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  width: 28px;
+  height: 28px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.hero-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(148, 163, 184, 0.5);
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.hero-dot-active {
+  width: 18px;
+  background: #f9fafb;
+}
+
+.hero-bottom-caption {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #e5e7eb;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.hero-bottom-caption .divider {
+  opacity: 0.5;
+}
+
+@media (max-width: 700px) {
+  .hero-controls {
+    bottom: 92px;
+  }
+}
+
+/* =============== Collection Section (하단) ============== */
+
+.collection-section {
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  padding: 56px 0 64px;
+}
+
+.collection-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+  gap: 40px;
+  align-items: stretch;
+}
+
+@media (max-width: 960px) {
+  .collection-inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* 왼쪽 큰 이미지 */
+
+.collection-visual {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 320px;
+  background: #020617;
+}
+
+.collection-visual-image {
+  position: absolute;
+  inset: 0;
+  background-image: url("https://images.pexels.com/photos/2457278/pexels-photo-2457278.jpeg");
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.8);
+  transform: scale(1.03);
+}
+
+.collection-visual-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.85),
+    rgba(15, 23, 42, 0.3)
+  );
+}
+
+.collection-visual-caption {
+  position: relative;
+  padding: 24px 24px 26px;
+  color: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.collection-label {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #e5e7eb;
+  margin-bottom: 10px;
+}
+
+.collection-visual-caption h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+.collection-visual-caption p {
+  margin: 0;
+  font-size: 13px;
+  color: #e5e7eb;
+  line-height: 1.7;
+}
+
+/* 오른쪽 텍스트 + 작품 리스트 */
+
+.collection-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.collection-kicker {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.collection-title {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: #111827;
+}
+
+.collection-text {
+  margin: 4px 0 8px;
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+.collection-bullets {
+  margin: 4px 0 10px;
+  padding-left: 18px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.collection-bullets li + li {
+  margin-top: 4px;
+}
+
+.collection-artworks-header {
+  margin-top: 8px;
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: #6b7280;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* 작품 카드들 */
+
+.artwork-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .artwork-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.artwork-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.artwork-thumb {
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+}
+
+.artwork-body {
+  padding: 8px 10px 9px;
+}
+
+.artwork-meta-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.artwork-category {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.artwork-size {
+  font-size: 10px;
+}
+
+.artwork-title {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: #111827;
+}
+
+.artwork-artist {
+  margin: 0;
+  font-size: 11px;
+  color: #6b7280;
+}
+/* 조각 컬렉션 큰 이미지 전용 */
+.collection-visual-image-sculpture {
+    background-image: url("https://images.pexels.com/photos/279321/pexels-photo-279321.jpeg");
+  }
+/* =============== Footer ==================== */
+
+.footer {
+  background: var(--bg-footer);
+  border-top: 1px solid #e5e7eb;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 20px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-text {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.footer-links {
+  display: flex;
+  gap: 10px;
+}
+
+.footer-links button {
+  border: none;
+  background: transparent;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
