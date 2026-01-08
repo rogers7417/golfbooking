@@ -137,20 +137,24 @@ const App: React.FC = () => {
             </nav>
 
             <div className="cta">
-              <button
-                className="btn"
-                type="button"
-                onClick={() => {
-                  setIsLoginOpen(true);
-                  setLoginStatus("idle");
-                  setLoginMessage("");
-                }}
-              >
-                로그인
-              </button>
-              <button className="btn primary" type="button">
-                멤버십 문의
-              </button>
+              {role === "guest" ? (
+                <>
+                  <button
+                    className="btn"
+                    type="button"
+                    onClick={() => {
+                      setIsLoginOpen(true);
+                      setLoginStatus("idle");
+                      setLoginMessage("");
+                    }}
+                  >
+                    로그인
+                  </button>
+                  <button className="btn primary" type="button">
+                    멤버십 문의
+                  </button>
+                </>
+              ) : null}
             </div>
           </div>
         </div>
