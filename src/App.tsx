@@ -1,393 +1,842 @@
-// src/App.tsx
-import React, { useEffect, useState } from "react";
-import "./App.css";
-
-type Scene = {
-  id: number;
-  title: string;
-  subtitle: string;
-  description: string;
-  tag: string;
-  imageUrl: string;
-};
-
-type ProductArtwork = {
-  id: number;
-  title: string;
-  artist: string;
-  category: string;
-  size: string;
-  thumbUrl: string;
-};
-
-const SCENES: Scene[] = [
-  {
-    id: 1,
-    tag: "Gallery Exhibition",
-    title: "공간이 작품이 되는 순간.",
-    subtitle: "Modern Wall Collection",
-    description:
-      "미술관의 화이트 큐브를 그대로 옮겨온 듯한 감각적인 전시 연출로 기업 로비와 라운지의 첫인상을 바꿉니다.",
-    imageUrl:
-      "https://images.pexels.com/photos/2457278/pexels-photo-2457278.jpeg",
-  },
-  {
-    id: 2,
-    tag: "Art Display",
-    title: "고객이 머무르는 공간을 위한 아트 디렉션.",
-    subtitle: "Minimal Gallery Style",
-    description:
-      "화이트 톤의 갤러리 벽에 어울리는 작품을 선별해 브랜드의 감도 높은 이미지를 구축합니다.",
-    imageUrl:
-      "https://images.pexels.com/photos/102127/pexels-photo-102127.jpeg?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: 3,
-    tag: "Corporate Collection",
-    title: "전문적인 기업 전시 솔루션.",
-    subtitle: "Large Abstract Canvas",
-    description:
-      "기업 로비, 멤버십 라운지, 프라이빗 회의실 등 공간의 목적에 맞춘 맞춤형 아트 디렉션을 제공합니다.",
-    imageUrl:
-      "https://images.pexels.com/photos/1324658/pexels-photo-1324658.jpeg?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: 4,
-    tag: "Golf & Art Experience",
-    title: "유명 골프장을 만나보세요.",
-    subtitle: "Premium Golf Course Collection",
-    description:
-      "예술 공간뿐 아니라 골프장·리조트에서도 작품과 함께하는 프리미엄 경험을 제안합니다.",
-    imageUrl:
-      "https://images.pexels.com/photos/1325661/pexels-photo-1325661.jpeg",
-  }
-  
-];
-
-const PRODUCT_ARTWORKS: ProductArtwork[] = [
-  {
-    id: 1,
-    title: "Calm Geometry",
-    artist: "K. Ara",
-    category: "회화",
-    size: "162 x 112 cm",
-    thumbUrl:
-      "https://images.pexels.com/photos/2457278/pexels-photo-2457278.jpeg",
-  },
-  {
-    id: 2,
-    title: "Marble Echo",
-    artist: "J. Lee",
-    category: "조각",
-    size: "H 90 cm",
-    thumbUrl:
-      "https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 3,
-    title: "Night Distance",
-    artist: "S. Park",
-    category: "사진",
-    size: "100 x 70 cm",
-    thumbUrl:
-      "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 4,
-    title: "Soft Horizon",
-    artist: "M. Choi",
-    category: "회화",
-    size: "130 x 97 cm",
-    thumbUrl:
-      "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&q=80",
-  },
-];
-
-// 조각 전용 컬렉션에 들어갈 작품 예시
-const SCULPTURE_ARTWORKS: ProductArtwork[] = [
-  {
-    id: 101,
-    title: "Stone Flow",
-    artist: "J. Han",
-    category: "조각",
-    size: "H 120 cm",
-    thumbUrl:
-      "https://images.pexels.com/photos/279321/pexels-photo-279321.jpeg",
-  },
-  {
-    id: 102,
-    title: "White Balance",
-    artist: "L. Seo",
-    category: "조각",
-    size: "H 95 cm",
-    thumbUrl:
-      "https://images.pexels.com/photos/279321/pexels-photo-279321.jpeg",
-  },
-  {
-    id: 103,
-    title: "Silent Curve",
-    artist: "M. Woo",
-    category: "조각",
-    size: "H 80 cm",
-    thumbUrl:
-      "https://images.pexels.com/photos/279321/pexels-photo-279321.jpeg",
-  },
-  {
-    id: 104,
-    title: "Granite Line",
-    artist: "H. Kim",
-    category: "조각",
-    size: "H 110 cm",
-    thumbUrl:
-      "https://images.pexels.com/photos/279321/pexels-photo-279321.jpeg",
-  },
-];
+import React, { useEffect, useMemo, useState } from "react";
+import aboutImage from "./assets/images/hero-12705470.jpg";
+import galleryImage from "./assets/images/gallery-16037759.jpg";
+import authImage from "./assets/images/auth-7534181.jpg";
+import auctionImage from "./assets/images/auction-13312438.jpg";
+import golfImage from "./assets/images/golf-8454586.jpg";
+import cultureImage from "./assets/images/culture-33144646.jpg";
+import logoText from "./assets/logo/logo_text.png";
 
 const App: React.FC = () => {
-  return (
-    <div className="app-root">
-      <Header />
-      <main className="main">
-        <HeroCarousel />
-        <CollectionSection />
-        <SculptureCollectionSection />
-      </main>
-      <Footer />
-    </div>
+  const [role, setRole] = useState<"guest" | "member">("guest");
+  const [activeHash, setActiveHash] = useState("#home");
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [loginStatus, setLoginStatus] = useState<"idle" | "success" | "error">(
+    "idle"
   );
-};
+  const [loginMessage, setLoginMessage] = useState("");
 
-const Header: React.FC = () => {
-  return (
-    <header className="header">
-      <div className="header-inner">
-        <div className="logo">Art & Golf</div>
-        <nav className="nav">
-          <button className="nav-link nav-link-active">Exhibition</button>
-          <button className="nav-link">For Corporate</button>
-          <button className="nav-link">Golf & Hospitality</button>
-          <button className="nav-cta">컨설팅 문의</button>
-        </nav>
-      </div>
-    </header>
+  const guestMenu = useMemo(
+    () => [
+      { href: "#about", label: "About artngolf" },
+      { href: "#why-n", label: "Why N" },
+      { href: "#platform-philosophy", label: "Platform Philosophy" },
+      { href: "#membership-guide", label: "Membership Guide" },
+      { href: "#contact", label: "Contact" },
+    ],
+    []
   );
-};
 
-const HeroCarousel: React.FC = () => {
-  const [index, setIndex] = useState(0);
-  const current = SCENES[index];
+  const memberMenu = useMemo(
+    () => [
+      { href: "#art", label: "Art Service (구매 / 렌탈 / 구독)" },
+      { href: "#auth", label: "Authentication Support" },
+      { href: "#lounge", label: "Member Lounge" },
+      { href: "#culture", label: "Culture & Experience" },
+      { href: "#golf", label: "Golf · Member Benefit" },
+      { href: "#collection", label: "My Collection (등록·관리)" },
+    ],
+    []
+  );
 
   useEffect(() => {
-    const id = setInterval(
-      () => setIndex((prev) => (prev + 1) % SCENES.length),
-      8000
+    document.body.setAttribute("data-role", role);
+
+    const updateHash = () => {
+      setActiveHash(window.location.hash || "#home");
+    };
+
+    updateHash();
+    window.addEventListener("hashchange", updateHash);
+
+    return () => window.removeEventListener("hashchange", updateHash);
+  }, [role]);
+
+  useEffect(() => {
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>(".reveal")
     );
-    return () => clearInterval(id);
+
+    targets.forEach((el, idx) => {
+      if (!el.dataset.delay) {
+        el.dataset.delay = String(idx % 5);
+      }
+    });
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.18, rootMargin: "0px 0px -10% 0px" }
+    );
+
+    targets.forEach((el) => io.observe(el));
+
+    return () => io.disconnect();
   }, []);
 
-  const goTo = (i: number) => setIndex(i);
-  const handlePrev = () =>
-    setIndex((prev) => (prev - 1 + SCENES.length) % SCENES.length);
-  const handleNext = () => setIndex((prev) => (prev + 1) % SCENES.length);
+  const handleRoleChange = (nextRole: "guest" | "member") => {
+    if (nextRole === "guest") {
+      const memberHashes = [
+        "#art",
+        "#auth",
+        "#auction",
+        "#corporate",
+        "#golf",
+        "#culture",
+        "#lounge",
+        "#collection",
+      ];
+      if (memberHashes.includes(window.location.hash)) {
+        window.location.hash = "#home";
+      }
+    }
+
+    setRole(nextRole);
+  };
+
+  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const email = String(formData.get("email") ?? "").trim();
+    const password = String(formData.get("password") ?? "").trim();
+
+    if (email === "1234" && password === "1234") {
+      setRole("member");
+      setLoginStatus("success");
+      setLoginMessage("로그인에 성공했습니다.");
+      window.setTimeout(() => {
+        setIsLoginOpen(false);
+        setLoginStatus("idle");
+        setLoginMessage("");
+      }, 600);
+      return;
+    }
+
+    setLoginStatus("error");
+    setLoginMessage("아이디 또는 비밀번호가 올바르지 않습니다.");
+  };
 
   return (
-    <section className="hero">
-      <div className="hero-scene-wrapper">
-        {SCENES.map((scene, i) => (
-          <HeroScene key={scene.id} scene={scene} active={i === index} />
-        ))}
-      </div>
+    <div className="app-root">
+      <div className="topbar">
+        <div className="container">
+          <div className="nav">
+            <div className="brand">
+              <img src={logoText} alt="ART N GOLF" className="brand-logo" />
+            </div>
 
-      <div className="hero-controls">
-        <button className="hero-arrow" onClick={handlePrev} aria-label="이전">
-          ←
-        </button>
-        <div className="hero-dots">
-          {SCENES.map((scene, i) => (
-            <button
-              key={scene.id}
-              className={`hero-dot ${i === index ? "hero-dot-active" : ""}`}
-              onClick={() => goTo(i)}
-              aria-label={scene.title}
-            />
-          ))}
-        </div>
-        <button className="hero-arrow" onClick={handleNext} aria-label="다음">
-          →
-        </button>
-      </div>
+            <nav className="menu" aria-label="Primary">
+              {guestMenu.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  data-role="guest"
+                  className={activeHash === item.href ? "active" : undefined}
+                >
+                  {item.label}
+                </a>
+              ))}
+              {memberMenu.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  data-role="member"
+                  className={activeHash === item.href ? "active" : undefined}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
 
-      <div className="hero-bottom-caption">
-        <span>{current.tag}</span>
-        <span className="divider">·</span>
-        <span>{current.subtitle}</span>
-      </div>
-    </section>
-  );
-};
-
-const HeroScene: React.FC<{ scene: Scene; active: boolean }> = ({
-  scene,
-  active,
-}) => (
-  <div className={`hero-scene ${active ? "hero-scene-active" : ""}`}>
-    <div
-      className="hero-image"
-      style={{ backgroundImage: `url(${scene.imageUrl})` }}
-    />
-    <div className="hero-overlay" />
-    <div className="hero-content">
-      <div>
-        <div className="hero-tag">{scene.tag}</div>
-        <h1 className="hero-title">{scene.title}</h1>
-        <p className="hero-subtitle-text">{scene.subtitle}</p>
-        <p className="hero-description">{scene.description}</p>
-        <div className="hero-actions">
-          <button className="primary-btn">전시 제안서 받아보기</button>
-          <button className="ghost-btn">포트폴리오 열람</button>
+            <div className="cta">
+              <button
+                className="btn"
+                type="button"
+                onClick={() => {
+                  setIsLoginOpen(true);
+                  setLoginStatus("idle");
+                  setLoginMessage("");
+                }}
+              >
+                로그인
+              </button>
+              <button className="btn primary" type="button">
+                멤버십 문의
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-);
 
-/**
- * 컬렉션 1: Signature (믹스 컬렉션)
- */
-const CollectionSection: React.FC = () => {
-  return (
-    <section className="collection-section">
-      <div className="collection-inner">
-        <div className="collection-visual">
-          <div className="collection-visual-image" />
-          <div className="collection-visual-overlay" />
-          <div className="collection-visual-caption">
-            <span className="collection-label">Signature Collection</span>
-            <h2>로비와 라운지를 위한 대표 컬렉션.</h2>
-            <p>
-              하나의 작품이 아니라, 공간 전체를 설계합니다.
-              <br />
-              회화, 조각, 사진을 조합해 귀사만의 전시 동선을 만들어 드립니다.
+      {isLoginOpen ? (
+        <div className="modal-backdrop" role="presentation">
+          <div className="modal" role="dialog" aria-modal="true">
+            <div className="modal-header">
+              <h2>로그인</h2>
+              <button
+                className="modal-close"
+                type="button"
+                aria-label="닫기"
+                onClick={() => setIsLoginOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            <form className="modal-body" onSubmit={handleLogin}>
+              <label>
+                아이디
+                <input type="text" name="email" required />
+              </label>
+              <label>
+                비밀번호
+                <input type="password" name="password" required />
+              </label>
+              {loginStatus !== "idle" ? (
+                <p className={`modal-message ${loginStatus}`}>
+                  {loginMessage}
+                </p>
+              ) : null}
+              <div className="modal-actions">
+                <button
+                  className="btn"
+                  type="button"
+                  onClick={() => setIsLoginOpen(false)}
+                >
+                  취소
+                </button>
+                <button className="btn primary" type="submit">
+                  로그인
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      ) : null}
+
+      <header id="home" className="hero">
+        <div className="container">
+            <p className="kicker reveal" data-delay="0">
+              ART N GOLF
+            </p>
+
+          <div className="hero-grid">
+            <div>
+              <h1 className="reveal" data-delay="1">
+                미술과 골프,
+                <br />
+                그리고 지금 이 시대의 <span className="accent">품격</span>을
+                연결합니다.
+              </h1>
+
+              <p className="lead reveal" data-delay="2">
+                {`artngolf의 N은 단순한 연결 기호가 아닙니다.
+AND(동시성), NEXUS(연결점), NETWORK(신뢰의 네트워크),
+NOBLESSE(품격), NOW(지금의 시대성).
+artngolf는
+미술을 소유하고, 이해하고, 활용하는 현재의 방식을 제시합니다.`}
+              </p>
+
+              <div className="pillrow">
+                <div className="pill reveal" data-delay="3">
+                  <span className="dot" /> AND
+                </div>
+                <div className="pill reveal" data-delay="3">
+                  <span className="dot" /> NEXUS
+                </div>
+                <div className="pill reveal" data-delay="4">
+                  <span className="dot" /> NETWORK
+                </div>
+                <div className="pill reveal" data-delay="4">
+                  <span className="dot" /> NOBLESSE
+                </div>
+                <div className="pill reveal" data-delay="5">
+                  <span className="dot" /> NOW
+                </div>
+              </div>
+
+              <div className="access-banner reveal" data-delay="1">
+                {`비회원(GUEST) 상태입니다.
+서비스 이용을 위해서는 회원 가입 및 승인이 필요합니다.
+일부 콘텐츠는 회원 전용으로 제공됩니다.`}
+              </div>
+            </div>
+
+            <div className="hero-card reveal" data-delay="2" aria-label="Hero visual">
+              <div className="hero-img" />
+              <div className="hero-caption">
+                <p className="mini">Signature Collection</p>
+                <p className="title">공간을 전시처럼 설계하는 프리미엄 아트 멤버십.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section id="about" className="block">
+        <div className="container">
+          <span id="why-n" className="anchor" />
+          <span id="platform-philosophy" className="anchor" />
+          <div className="blockhead">
+            <h2 className="reveal" data-delay="0">
+              Why N?
+            </h2>
+            <p className="subnote reveal" data-delay="1">
+              About artngolf
             </p>
           </div>
-        </div>
 
-        <div className="collection-content">
-          <p className="collection-kicker">Art & Golf Corporate Program</p>
-          <h3 className="collection-title">
-            브랜드의 톤앤매너에 맞춘
-            <br />
-            맞춤형 아트 디렉션.
-          </h3>
-          <p className="collection-text">
-            단순히 작품을 대여하는 것이 아니라, 공간의 목적과 방문객의
-            동선을 함께 고민합니다. 로비, 회의실, VIP 라운지, 클럽하우스 등
-            각 공간에서 어떤 감정을 남기고 싶은지부터 대화를 시작합니다.
-          </p>
-          <ul className="collection-bullets">
-            <li>공간/브랜드 진단 후 큐레이터 상담</li>
-            <li>회화 · 조각 · 사진 등 매체 믹스 제안</li>
-            <li>설치, 조명, 교체 주기까지 포함한 연 단위 플랜</li>
-          </ul>
+          <div className="feature">
+            <div className="visual reveal" data-delay="0">
+              <div
+                className="bg"
+                style={{
+                  backgroundImage: `url(${aboutImage})`,
+                }}
+              />
+              <div className="overlay" />
+              <div className="caption">
+                <p className="cap-kicker">GALLERY</p>
+                <p className="cap-title">전시처럼, 기준을 세웁니다.</p>
+              </div>
+            </div>
 
-          <div className="collection-artworks-header">
-            <span>이 컬렉션에 포함될 수 있는 작품 예시</span>
-          </div>
-          <div className="artwork-grid">
-            {PRODUCT_ARTWORKS.map((art) => (
-              <ArtworkCard key={art.id} art={art} />
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+            <div className="copy">
+              <p className="k reveal" data-delay="1">
+                Platform Philosophy
+              </p>
+              <h3 className="reveal" data-delay="2">
+                N은 연결이 아니라, 기준입니다.
+              </h3>
+              <p className="reveal" data-delay="3">
+                {`artngolf는 미술과 골프를 단순히 결합한 플랫폼이 아닙니다.
+N은 다섯 가지 의미를 담고 있으며, 동시에 작동하는 구조입니다.`}
+              </p>
 
-/**
- * 컬렉션 2: Sculpture (조각 중심)
- */
-const SculptureCollectionSection: React.FC = () => {
-  return (
-    <section className="collection-section">
-      <div className="collection-inner">
-        {/* 이번엔 텍스트 먼저, 이미지 나중에 배치해서 리듬감 주기 */}
-        <div className="collection-content">
-          <p className="collection-kicker">Sculpture Program</p>
-          <h3 className="collection-title">
-            공간의 중심을 만드는
-            <br />
-            조각 작품 컬렉션.
-          </h3>
-          <p className="collection-text">
-            로비 중앙, 입구, 계단 홀처럼 시선이 모이는 지점에는 조각 작품이
-            가장 강력한 존재감을 가집니다. 동선과 조도를 고려해 안전하면서도
-            인상 깊은 조형물을 제안합니다.
-          </p>
-          <ul className="collection-bullets">
-            <li>돌, 금속, 레진 등 재료별 포트폴리오 제안</li>
-            <li>기성 작품 렌탈과 작가 커미션 작업 모두 지원</li>
-            <li>야외 설치 및 야간 조명 연출까지 포함 가능</li>
-          </ul>
-
-          <div className="collection-artworks-header">
-            <span>조각 컬렉션 구성 예시</span>
-          </div>
-          <div className="artwork-grid">
-            {SCULPTURE_ARTWORKS.map((art) => (
-              <ArtworkCard key={art.id} art={art} />
-            ))}
+              <div className="n-strip">
+                <div className="n-chip reveal" data-delay="1">
+                  <p className="t">AND</p>
+                  <p className="d">동시성</p>
+                </div>
+                <div className="n-chip reveal" data-delay="2">
+                  <p className="t">NEXUS</p>
+                  <p className="d">연결점</p>
+                </div>
+                <div className="n-chip reveal" data-delay="3">
+                  <p className="t">NETWORK</p>
+                  <p className="d">신뢰 네트워크</p>
+                </div>
+                <div className="n-chip reveal" data-delay="4">
+                  <p className="t">NOBLESSE</p>
+                  <p className="d">품격</p>
+                </div>
+                <div className="n-chip reveal" data-delay="5">
+                  <p className="t">NOW</p>
+                  <p className="d">시대성</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div className="collection-visual">
-          <div className="collection-visual-image collection-visual-image-sculpture" />
-          <div className="collection-visual-overlay" />
-          <div className="collection-visual-caption">
-            <span className="collection-label">Sculpture Collection</span>
-            <h2>조형물이 만드는 공간의 중심축.</h2>
-            <p>
-              단 한 점의 조각만으로도 공간의 무게 중심이 바뀝니다.
-              <br />
-              발걸음을 멈추게 만드는 조형물로, 공간의 이야기를 시작하세요.
+      <section id="membership" className="block">
+        <div className="container">
+          <span id="membership-guide" className="anchor" />
+          <div className="blockhead">
+            <h2 className="reveal" data-delay="0">
+              Membership is Trust
+            </h2>
+            <p className="subnote reveal" data-delay="1">
+              Membership
             </p>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-};
 
-const ArtworkCard: React.FC<{ art: ProductArtwork }> = ({ art }) => (
-  <article className="artwork-card">
-    <div
-      className="artwork-thumb"
-      style={{ backgroundImage: `url(${art.thumbUrl})` }}
-    />
-    <div className="artwork-body">
-      <div className="artwork-meta-top">
-        <span className="artwork-category">{art.category}</span>
-        <span className="artwork-size">{art.size}</span>
+          <div className="feature reverse">
+            <div className="visual reveal" data-delay="0">
+              <div
+                className="bg"
+                style={{
+                  backgroundImage: `url(${galleryImage})`,
+                }}
+              />
+              <div className="overlay" />
+              <div className="caption">
+                <p className="cap-kicker">NETWORK</p>
+                <p className="cap-title">승인 기반 · 실명 기반 · 기록 기반</p>
+              </div>
+            </div>
+
+            <div className="copy">
+              <p className="k reveal" data-delay="1">
+                Closed Membership
+              </p>
+              <h3 className="reveal" data-delay="2">
+                신뢰는 구조에서 만들어집니다.
+              </h3>
+              <p className="reveal" data-delay="3">
+                {`가입 후 승인, 실명 기반 활동, 이력 중심 운영.
+회원 간 정보 공유는 폐쇄형 구조에서만 진행됩니다.
+이는 신뢰 가능한 네트워크를 만들기 위한 최소 조건입니다.`}
+              </p>
+              <ul className="bullets reveal" data-delay="4">
+                <li>가입 → 승인</li>
+                <li>실명 기반 활동</li>
+                <li>구매·렌탈·구독 이력 중심 운영</li>
+                <li>폐쇄형 정보 공유</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="member-only">
+        <section id="art" className="block">
+          <div className="container">
+            <div className="blockhead">
+              <h2 className="reveal" data-delay="0">
+                Art · Purchase / Rental / Subscription
+              </h2>
+              <p className="subnote reveal" data-delay="1">
+                Art Service
+              </p>
+            </div>
+
+            <div className="feature">
+              <div className="visual reveal" data-delay="0">
+                <div
+                  className="bg"
+                  style={{
+                    backgroundImage: `url(${galleryImage})`,
+                  }}
+                />
+                <div className="overlay" />
+                <div className="caption">
+                  <p className="cap-kicker">NOW</p>
+                  <p className="cap-title">소유 · 활용 · 관리까지</p>
+                </div>
+              </div>
+
+              <div className="copy">
+                <p className="k reveal" data-delay="1">
+                  Art Service
+                </p>
+                <h3 className="reveal" data-delay="2">
+                  미술을 ‘현재의 방식’으로.
+                </h3>
+                <p className="reveal" data-delay="3">
+                  {`미술품 구매, 렌탈, 구독까지.
+공간·기간·목적에 맞춘 합리적 제안과 교체·관리 개념을 포함합니다.`}
+                </p>
+                <ul className="bullets reveal" data-delay="4">
+                  <li>Purchase: 작가·작품·이력 중심 정보</li>
+                  <li>Rental/Subscription: 공간 활용 중심</li>
+                  <li>교체 및 관리 포함</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="auth" className="block">
+          <div className="container">
+            <div className="blockhead">
+              <h2 className="reveal" data-delay="0">
+                Authentication Support
+              </h2>
+              <p className="subnote reveal" data-delay="1">
+                Verification
+              </p>
+            </div>
+
+            <div className="feature reverse">
+              <div className="visual reveal" data-delay="0">
+                <div
+                  className="bg"
+                  style={{
+                    backgroundImage: `url(${authImage})`,
+                  }}
+                />
+                <div className="overlay" />
+                <div className="caption">
+                  <p className="cap-kicker">NEXUS</p>
+                  <p className="cap-title">연결된 전문성으로 검증을 지원</p>
+                </div>
+              </div>
+
+              <div className="copy">
+                <p className="k reveal" data-delay="1">
+                  Authentication
+                </p>
+                <h3 className="reveal" data-delay="2">
+                  검증은 ‘연결’로 이루어져야 합니다.
+                </h3>
+                <p className="reveal" data-delay="3">
+                  {`공신력 있는 감정기관·전문가 연계, 소장 작품 자료 정리,
+감정 결과 기록 및 이력 관리를 지원합니다.`}
+                </p>
+                <ul className="bullets reveal" data-delay="4">
+                  <li>외부 감정기관/전문가 연계</li>
+                  <li>자료 정리 및 기록</li>
+                  <li>이력 관리</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="auction" className="block">
+          <div className="container">
+            <div className="blockhead">
+              <h2 className="reveal" data-delay="0">
+                Private Auction
+              </h2>
+              <p className="subnote reveal" data-delay="1">
+                Auction &amp; Trade
+              </p>
+            </div>
+
+            <div className="feature">
+              <div className="visual reveal" data-delay="0">
+                <div
+                  className="bg"
+                  style={{
+                    backgroundImage: `url(${auctionImage})`,
+                  }}
+                />
+                <div className="overlay" />
+                <div className="caption">
+                  <p className="cap-kicker">PRIVATE</p>
+                  <p className="cap-title">공개 시장이 아닌, 승인된 시장</p>
+                </div>
+              </div>
+
+              <div className="copy">
+                <p className="k reveal" data-delay="1">
+                  Private Auction
+                </p>
+                <h3 className="reveal" data-delay="2">
+                  네트워크가 자산이 되는 구조.
+                </h3>
+                <p className="reveal" data-delay="3">
+                  {`승인된 회원만 참여, 제한된 참여자 구조, 거래 이력 관리.
+신뢰 기반 중개 환경을 전제로 합니다.`}
+                </p>
+                <ul className="bullets reveal" data-delay="4">
+                  <li>Approved members only</li>
+                  <li>Limited participation</li>
+                  <li>Trade history &amp; records</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="corporate" className="block">
+          <div className="container">
+            <div className="blockhead">
+              <h2 className="reveal" data-delay="0">
+                For Corporate Leaders
+              </h2>
+              <p className="subnote reveal" data-delay="1">
+                Corporate Art Solution
+              </p>
+            </div>
+
+            <div className="feature reverse">
+              <div className="visual reveal" data-delay="0">
+                <div
+                  className="bg"
+                  style={{
+                    backgroundImage: `url(${authImage})`,
+                  }}
+                />
+                <div className="overlay" />
+                <div className="caption">
+                  <p className="cap-kicker">CORPORATE</p>
+                  <p className="cap-title">계약 · 증빙 · 기록 중심 운영</p>
+                </div>
+              </div>
+
+              <div className="copy">
+                <p className="k reveal" data-delay="1">
+                  For Corporate
+                </p>
+                <h3 className="reveal" data-delay="2">
+                  취향은 판단이 됩니다.
+                </h3>
+                <p className="reveal" data-delay="3">
+                  {`법인 명의 미술품 구매·렌탈·구독,
+계약·증빙·기록 중심 운영을 지원합니다.`}
+                </p>
+                <ul className="bullets reveal" data-delay="4">
+                  <li>법인 명의 구매·렌탈·구독</li>
+                  <li>Documentation &amp; records</li>
+                  <li>전문가 자문 기반 운영</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="golf" className="block">
+          <div className="container">
+            <div className="blockhead">
+              <h2 className="reveal" data-delay="0">
+                Golf · Member Benefit
+              </h2>
+              <p className="subnote reveal" data-delay="1">
+                Golf Service
+              </p>
+            </div>
+
+            <div className="feature">
+              <div className="visual reveal" data-delay="0">
+                <div
+                  className="bg"
+                  style={{
+                    backgroundImage: `url(${golfImage})`,
+                  }}
+                />
+                <div className="overlay" />
+                <div className="caption">
+                  <p className="cap-kicker">GOLF</p>
+                  <p className="cap-title">유명 골프장을 만나보세요</p>
+                </div>
+              </div>
+
+              <div className="copy">
+                <p className="k reveal" data-delay="1">
+                  Member Benefit
+                </p>
+                <h3 className="reveal" data-delay="2">
+                  골프는 목적이 아니라, 연결입니다.
+                </h3>
+                <p className="reveal" data-delay="3">
+                  {`미술 서비스 이용 회원을 위한 교류 서비스 중 하나입니다.
+명문 골프장 예약 지원, 회원 대회, 해외 투어를 제공합니다.`}
+                </p>
+                <ul className="bullets reveal" data-delay="4">
+                  <li>명문 골프장 예약 지원</li>
+                  <li>월·분기별 회원 대회</li>
+                  <li>해외 골프 투어</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="culture" className="block">
+          <div className="container">
+            <div className="blockhead">
+              <h2 className="reveal" data-delay="0">
+                Culture &amp; Experience
+              </h2>
+              <p className="subnote reveal" data-delay="1">
+                Beyond Ownership
+              </p>
+            </div>
+
+            <div className="feature reverse">
+              <div className="visual reveal" data-delay="0">
+                <div
+                  className="bg"
+                  style={{
+                    backgroundImage: `url(${cultureImage})`,
+                  }}
+                />
+                <div className="overlay" />
+                <div className="caption">
+                  <p className="cap-kicker">DINING</p>
+                  <p className="cap-title">소유 이후의 경험</p>
+                </div>
+              </div>
+
+              <div className="copy">
+                <p className="k reveal" data-delay="1">
+                  Culture
+                </p>
+                <h3 className="reveal" data-delay="2">
+                  품격은 ‘실천’으로 완성됩니다.
+                </h3>
+                <p className="reveal" data-delay="3">
+                  {`소규모 프라이빗 전시, 와인 & 다이닝 모임,
+해외 미술관·박물관 투어, 오블리주 프로그램을 운영합니다.`}
+                </p>
+                <ul className="bullets reveal" data-delay="4">
+                  <li>프라이빗 전시</li>
+                  <li>와인 &amp; 다이닝</li>
+                  <li>해외 투어</li>
+                  <li>오블리주 프로그램</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="lounge" className="block">
+          <div className="container">
+            <div className="blockhead">
+              <h2 className="reveal" data-delay="0">
+                Member Lounge
+              </h2>
+              <p className="subnote reveal" data-delay="1">
+                Members Only
+              </p>
+            </div>
+
+            <div className="feature">
+              <div className="visual reveal" data-delay="0">
+                <div
+                  className="bg"
+                  style={{
+                    backgroundImage: `url(${aboutImage})`,
+                  }}
+                />
+                <div className="overlay" />
+                <div className="caption">
+                  <p className="cap-kicker">TRUST</p>
+                  <p className="cap-title">정보는, 신뢰 위에서만 흐릅니다</p>
+                </div>
+              </div>
+
+              <div className="copy">
+                <p className="k reveal" data-delay="1">
+                  Members
+                </p>
+                <h3 className="reveal" data-delay="2">
+                  폐쇄형 구조에서만 공유됩니다.
+                </h3>
+                <p className="reveal" data-delay="3">
+                  {`멤버 간 정보 공유 영역(네트워크/컬렉션/거래 이력)으로 확장됩니다.`}
+                </p>
+                <ul className="bullets reveal" data-delay="4">
+                  <li>My Collection</li>
+                  <li>Member Network</li>
+                  <li>Trade History</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="collection" className="block">
+          <div className="container">
+            <div className="blockhead">
+              <h2 className="reveal" data-delay="0">
+                My Collection (등록·관리)
+              </h2>
+              <p className="subnote reveal" data-delay="1">
+                Collection
+              </p>
+            </div>
+
+            <div className="feature reverse">
+              <div className="visual reveal" data-delay="0">
+                <div
+                  className="bg"
+                  style={{
+                    backgroundImage: `url(${galleryImage})`,
+                  }}
+                />
+                <div className="overlay" />
+                <div className="caption">
+                  <p className="cap-kicker">ARCHIVE</p>
+                  <p className="cap-title">작품 이력과 소장 기록을 관리</p>
+                </div>
+              </div>
+
+              <div className="copy">
+                <p className="k reveal" data-delay="1">
+                  My Collection
+                </p>
+                <h3 className="reveal" data-delay="2">
+                  소장 이력을 체계적으로 정리합니다.
+                </h3>
+                <p className="reveal" data-delay="3">
+                  {`보유 작품 등록, 관리, 감정 이력 기록까지 한 곳에서 제공합니다.\n개인과 법인의 아카이브를 안전하게 유지합니다.`}
+                </p>
+                <ul className="bullets reveal" data-delay="4">
+                  <li>작품 등록 및 수정</li>
+                  <li>감정/거래 이력 관리</li>
+                  <li>렌탈·구독 상태 확인</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-      <h4 className="artwork-title">{art.title}</h4>
-      <p className="artwork-artist">{art.artist}</p>
+
+      <section id="contact" className="block">
+        <div className="container">
+          <div className="blockhead">
+            <h2 className="reveal" data-delay="0">
+              Contact
+            </h2>
+            <p className="subnote reveal" data-delay="1">
+              Inquiry
+            </p>
+          </div>
+
+          <div className="feature">
+            <div className="visual reveal" data-delay="0">
+              <div
+                className="bg"
+                style={{
+                  backgroundImage: `url(${authImage})`,
+                }}
+              />
+              <div className="overlay" />
+              <div className="caption">
+                <p className="cap-kicker">INQUIRY</p>
+                <p className="cap-title">멤버십 가입 및 서비스 문의</p>
+              </div>
+            </div>
+
+            <div className="copy">
+              <p className="k reveal" data-delay="1">
+                Contact
+              </p>
+              <h3 className="reveal" data-delay="2">
+                문의 후, 승인을 통해 시작됩니다.
+              </h3>
+              <p className="reveal" data-delay="3">
+                {`멤버십 가입 및 서비스 이용을 위해서는 회원 가입 및 승인이 필요합니다.
+문의 남겨주시면 안내드리겠습니다.`}
+              </p>
+              <ul className="bullets reveal" data-delay="4">
+                <li>이메일: contact@artngolf.example</li>
+                <li>상담: 상단 ‘멤버십 문의’ 버튼</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div className="container">
+          <div className="footline">
+            <p className="footer-slogan reveal" data-delay="0">
+              ART N GOLF — The Nexus of Art, Golf, and Now.
+            </p>
+            <p className="footer-desc reveal" data-delay="1">
+              {`artngolf는
+미술과 골프를 연결하고,
+사람과 사람을 연결하며,
+지금의 기준으로 품격을 정의합니다.`}
+            </p>
+            <div className="small reveal" data-delay="2">
+              © ART N GOLF. All rights reserved.
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
-  </article>
-);
-
-const Footer: React.FC = () => {
-  return (
-    <footer className="footer">
-      <div className="footer-inner">
-        <p className="footer-text">
-          Art & Golf · Corporate Art Rental & Exhibition Direction (Sample UI)
-        </p>
-        <div className="footer-links">
-          <button>이용약관</button>
-          <button>개인정보처리방침</button>
-        </div>
-      </div>
-    </footer>
   );
 };
 

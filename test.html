@@ -1,0 +1,942 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ART N GOLF</title>
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#0b0f14;
+      --muted:#5b6470;
+      --line:#e7e8ea;
+      --soft:#f6f6f6;
+
+      --brand:#b09060;
+      --brand-ink:#5a4526;
+
+      --max:1120px;
+      --r:18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+        "Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      letter-spacing:-0.01em;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--max); margin:0 auto; padding:0 22px;}
+
+    /* ===== Topbar ===== */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background:rgba(255,255,255,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      height:64px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      font-weight:600;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      font-size:14px;
+      white-space:nowrap;
+    }
+    .brand-mark{
+      width:10px; height:10px; border-radius:999px;
+      background:var(--brand);
+      box-shadow: 0 0 0 4px rgba(176,144,96,0.18);
+      flex:0 0 auto;
+    }
+
+    .menu{
+      display:flex; gap:6px; align-items:center;
+      font-size:12px; color:var(--muted);
+      overflow:auto; white-space:nowrap;
+      scrollbar-width:none;
+    }
+    .menu::-webkit-scrollbar{display:none;}
+    .menu a{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid transparent;
+      transition: background .15s ease, color .15s ease, border-color .15s ease;
+    }
+    .menu a:hover{ background:var(--soft); color:var(--ink); }
+    .menu a.active{
+      border-color: rgba(176,144,96,0.35);
+      background: rgba(176,144,96,0.10);
+      color: var(--brand-ink);
+    }
+
+    /* role-based menu */
+    .menu a[data-role="guest"]{ display:none; }
+    body[data-role="guest"] .menu a[data-role="guest"]{ display:inline-flex; }
+    body[data-role="member"] .menu a[data-role="member"]{ display:inline-flex; }
+    body[data-role="member"] .menu a[data-role="guest"]{ display:none; }
+
+    .cta{
+      display:flex; gap:10px; align-items:center;
+      flex:0 0 auto;
+    }
+    .btn{
+      border:1px solid var(--line);
+      background:#fff;
+      padding:9px 12px;
+      border-radius:999px;
+      font-size:12px;
+      cursor:pointer;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn.primary{
+      border-color: rgba(176,144,96,0.45);
+      background: rgba(176,144,96,0.10);
+      color: var(--brand-ink);
+    }
+
+    .role-pill{
+      display:flex; align-items:center; gap:6px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:4px;
+      background:#fff;
+    }
+    .role-btn{
+      border:0;
+      background:transparent;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:11px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:var(--muted);
+      cursor:pointer;
+    }
+    .role-btn.active{
+      background: rgba(11,15,20,0.06);
+      color:var(--ink);
+    }
+
+    /* ===== Hero ===== */
+    .hero{
+      padding:86px 0 62px;
+      border-bottom:1px solid var(--line);
+    }
+    .kicker{
+      font-size:12px;
+      letter-spacing:0.22em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin:0 0 12px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap:28px;
+      align-items:start;
+    }
+    @media (max-width: 920px){ .hero-grid{grid-template-columns:1fr;} }
+    .hero h1{
+      font-size:46px;
+      line-height:1.08;
+      margin:0 0 18px;
+      letter-spacing:-0.035em;
+    }
+    .hero h1 .accent{ color:var(--brand-ink); }
+    .lead{
+      font-size:15px;
+      line-height:1.95;
+      color:var(--muted);
+      margin:0;
+      white-space:pre-line;
+    }
+    .pillrow{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin-top:18px;
+    }
+    .pill{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:11px;
+      color:var(--muted);
+      display:flex; align-items:center; gap:8px;
+    }
+    .dot{
+      width:7px; height:7px; border-radius:999px;
+      background:var(--brand);
+    }
+
+    .hero-card{
+      border:1px solid var(--line);
+      border-radius: var(--r);
+      overflow:hidden;
+      background:#fff;
+    }
+    .hero-img{
+      height:240px;
+      background-size:cover;
+      background-position:center;
+      background-image:url("https://images.pexels.com/photos/12705470/pexels-photo-12705470.jpeg?cs=srgb&dl=pexels-bertellifotografia-12705470.jpg&fm=jpg");
+      position:relative;
+    }
+    .hero-img::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(to top, rgba(0,0,0,0.45), rgba(0,0,0,0));
+    }
+    .hero-caption{
+      padding:14px 14px 16px;
+    }
+    .hero-caption .mini{
+      font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
+      color:var(--muted);
+      margin:0 0 6px;
+    }
+    .hero-caption .title{
+      margin:0;
+      font-size:14px;
+      line-height:1.5;
+      color:var(--ink);
+    }
+
+    .access-banner{
+      margin-top:18px;
+      border:1px solid rgba(176,144,96,0.35);
+      background: rgba(176,144,96,0.08);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: var(--brand-ink);
+      font-size: 13px;
+      line-height: 1.7;
+      display:none;
+      white-space:pre-line;
+    }
+    body[data-role="guest"] .access-banner{ display:block; }
+
+    /* ===== Sections ===== */
+    section.block{
+      padding:78px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .blockhead{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:18px;
+      margin-bottom:22px;
+    }
+    .blockhead h2{
+      margin:0;
+      font-size:26px;
+      letter-spacing:-0.02em;
+    }
+    .subnote{
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+      margin:0;
+    }
+
+    .feature{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:28px;
+      align-items:center;
+    }
+    .feature.reverse .visual{ order:2; }
+    .feature.reverse .copy{ order:1; }
+    @media (max-width: 920px){
+      .feature{ grid-template-columns:1fr; }
+      .feature.reverse .visual, .feature.reverse .copy{ order:unset; }
+      .hero h1{ font-size:38px; }
+    }
+
+    .visual{
+      border-radius: 22px;
+      overflow:hidden;
+      position:relative;
+      min-height: 340px;
+      border:1px solid var(--line);
+      background:#ddd;
+    }
+    .visual .bg{
+      position:absolute; inset:0;
+      background-size:cover;
+      background-position:center;
+      transform: scale(1.03);
+      filter: brightness(0.92) contrast(1.05);
+    }
+    .visual .overlay{
+      position:absolute; inset:0;
+      background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0.08));
+    }
+    .visual .caption{
+      position:absolute; left:18px; right:18px; bottom:16px;
+      color:#fff;
+    }
+    .visual .caption .cap-kicker{
+      margin:0 0 6px;
+      font-size:11px;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.80);
+    }
+    .visual .caption .cap-title{
+      margin:0;
+      font-size:18px;
+      line-height:1.35;
+      letter-spacing:-0.01em;
+    }
+
+    .copy .k{
+      margin:0 0 10px;
+      font-size:11px;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .copy h3{
+      margin:0 0 14px;
+      font-size:30px;
+      line-height:1.18;
+      letter-spacing:-0.03em;
+    }
+    .copy p{
+      margin:0 0 16px;
+      font-size:14px;
+      line-height:1.9;
+      color:var(--muted);
+      white-space:pre-line;
+    }
+    .bullets{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.9;
+    }
+    .bullets li+li{ margin-top:6px; }
+
+    .n-strip{
+      display:grid;
+      grid-template-columns: repeat(5, minmax(0,1fr));
+      gap:10px;
+      margin-top:16px;
+    }
+    @media (max-width: 920px){
+      .n-strip{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    .n-chip{
+      border:1px solid rgba(176,144,96,0.35);
+      background: rgba(176,144,96,0.08);
+      color: var(--brand-ink);
+      border-radius: 14px;
+      padding:10px 10px 9px;
+      min-height:68px;
+    }
+    .n-chip .t{
+      font-size:11px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      margin:0 0 6px;
+    }
+    .n-chip .d{
+      margin:0;
+      font-size:12px;
+      line-height:1.5;
+      color:#6b5a40;
+    }
+
+    /* member-only sections visibility */
+    .member-only{ display:none; }
+    body[data-role="member"] .member-only{ display:block; }
+
+    /* ===== Footer ===== */
+    footer{
+      padding:46px 0 56px;
+      background:#fff;
+    }
+    .footline{
+      border-top:1px solid var(--line);
+      padding-top:22px;
+    }
+    .footer-slogan{
+      font-size:18px;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      margin:0 0 10px;
+    }
+    .footer-desc{
+      margin:0;
+      font-size:13px;
+      line-height:1.9;
+      color:var(--muted);
+      white-space:pre-line;
+    }
+    .small{
+      margin-top:16px;
+      font-size:11px;
+      color:#88919b;
+    }
+
+    /* ===== Scroll Reveal (PPT-like) ===== */
+    .reveal{
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(1px);
+      transition:
+        opacity 700ms ease,
+        transform 900ms cubic-bezier(.2,.8,.2,1),
+        filter 900ms ease;
+      will-change: opacity, transform, filter;
+    }
+    .reveal.is-visible{
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+    .reveal[data-delay="0"]{ transition-delay: 0ms; }
+    .reveal[data-delay="1"]{ transition-delay: 120ms; }
+    .reveal[data-delay="2"]{ transition-delay: 240ms; }
+    .reveal[data-delay="3"]{ transition-delay: 360ms; }
+    .reveal[data-delay="4"]{ transition-delay: 480ms; }
+    .reveal[data-delay="5"]{ transition-delay: 600ms; }
+
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ opacity:1; transform:none; filter:none; transition:none; }
+    }
+  </style>
+</head>
+
+<body data-role="guest">
+
+  <!-- ===== Top Nav ===== -->
+  <div class="topbar">
+    <div class="container">
+      <div class="nav">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <span>ART N GOLF</span>
+        </div>
+
+        <nav class="menu" aria-label="Primary">
+          <!-- GUEST -->
+          <a href="#home" data-role="guest" class="active">Home</a>
+          <a href="#about" data-role="guest">Why N</a>
+          <a href="#membership" data-role="guest">Membership</a>
+          <a href="#contact" data-role="guest">Contact</a>
+
+          <!-- MEMBER -->
+          <a href="#art" data-role="member">Art Service</a>
+          <a href="#auth" data-role="member">Authentication</a>
+          <a href="#auction" data-role="member">Private Auction</a>
+          <a href="#corporate" data-role="member">For Corporate</a>
+          <a href="#golf" data-role="member">Golf</a>
+          <a href="#culture" data-role="member">Culture</a>
+          <a href="#lounge" data-role="member">Member Lounge</a>
+        </nav>
+
+        <div class="cta">
+          <div class="role-pill" role="group" aria-label="Role Toggle">
+            <button class="role-btn active" data-set-role="guest" type="button">Guest</button>
+            <button class="role-btn" data-set-role="member" type="button">Member</button>
+          </div>
+          <button class="btn" type="button">로그인</button>
+          <button class="btn primary" type="button">멤버십 문의</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <header id="home" class="hero">
+    <div class="container">
+      <p class="kicker reveal" data-delay="0">ART N GOLF</p>
+
+      <div class="hero-grid">
+        <div>
+          <h1 class="reveal" data-delay="1">
+            미술과 골프,<br />
+            그리고 지금 이 시대의 <span class="accent">품격</span>을 연결합니다.
+          </h1>
+
+          <p class="lead reveal" data-delay="2">
+artngolf의 N은 단순한 연결 기호가 아닙니다.
+AND(동시성), NEXUS(연결점), NETWORK(신뢰의 네트워크),
+NOBLESSE(품격), NOW(지금의 시대성).
+artngolf는
+미술을 소유하고, 이해하고, 활용하는 현재의 방식을 제시합니다.
+          </p>
+
+          <div class="pillrow">
+            <div class="pill reveal" data-delay="3"><span class="dot"></span> AND</div>
+            <div class="pill reveal" data-delay="3"><span class="dot"></span> NEXUS</div>
+            <div class="pill reveal" data-delay="4"><span class="dot"></span> NETWORK</div>
+            <div class="pill reveal" data-delay="4"><span class="dot"></span> NOBLESSE</div>
+            <div class="pill reveal" data-delay="5"><span class="dot"></span> NOW</div>
+          </div>
+
+          <div class="access-banner reveal" data-delay="1">
+비회원(GUEST) 상태입니다.
+서비스 이용을 위해서는 회원 가입 및 승인이 필요합니다.
+일부 콘텐츠는 회원 전용으로 제공됩니다.
+          </div>
+        </div>
+
+        <div class="hero-card reveal" data-delay="2" aria-label="Hero visual">
+          <div class="hero-img"></div>
+          <div class="hero-caption">
+            <p class="mini">Signature Collection</p>
+            <p class="title">공간을 전시처럼 설계하는 프리미엄 아트 멤버십.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== ABOUT (Gallery) ===== -->
+  <section id="about" class="block">
+    <div class="container">
+      <div class="blockhead">
+        <h2 class="reveal" data-delay="0">Why N?</h2>
+        <p class="subnote reveal" data-delay="1">About artngolf</p>
+      </div>
+
+      <div class="feature">
+        <div class="visual reveal" data-delay="0">
+          <div class="bg" style="background-image:url('https://images.pexels.com/photos/12705470/pexels-photo-12705470.jpeg?cs=srgb&dl=pexels-bertellifotografia-12705470.jpg&fm=jpg');"></div>
+          <div class="overlay"></div>
+          <div class="caption">
+            <p class="cap-kicker">GALLERY</p>
+            <p class="cap-title">전시처럼, 기준을 세웁니다.</p>
+          </div>
+        </div>
+
+        <div class="copy">
+          <p class="k reveal" data-delay="1">Platform Philosophy</p>
+          <h3 class="reveal" data-delay="2">N은 연결이 아니라, 기준입니다.</h3>
+          <p class="reveal" data-delay="3">
+artngolf는 미술과 골프를 단순히 결합한 플랫폼이 아닙니다.
+N은 다섯 가지 의미를 담고 있으며, 동시에 작동하는 구조입니다.
+          </p>
+
+          <div class="n-strip">
+            <div class="n-chip reveal" data-delay="1"><p class="t">AND</p><p class="d">동시성</p></div>
+            <div class="n-chip reveal" data-delay="2"><p class="t">NEXUS</p><p class="d">연결점</p></div>
+            <div class="n-chip reveal" data-delay="3"><p class="t">NETWORK</p><p class="d">신뢰 네트워크</p></div>
+            <div class="n-chip reveal" data-delay="4"><p class="t">NOBLESSE</p><p class="d">품격</p></div>
+            <div class="n-chip reveal" data-delay="5"><p class="t">NOW</p><p class="d">시대성</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MEMBERSHIP (Gallery mix) ===== -->
+  <section id="membership" class="block">
+    <div class="container">
+      <div class="blockhead">
+        <h2 class="reveal" data-delay="0">Membership is Trust</h2>
+        <p class="subnote reveal" data-delay="1">Membership</p>
+      </div>
+
+      <div class="feature reverse">
+        <div class="visual reveal" data-delay="0">
+          <div class="bg" style="background-image:url('https://images.pexels.com/photos/16037759/pexels-photo-16037759.jpeg?cs=srgb&dl=pexels-laura-paredis-1047081-16037759.jpg&fm=jpg');"></div>
+          <div class="overlay"></div>
+          <div class="caption">
+            <p class="cap-kicker">NETWORK</p>
+            <p class="cap-title">승인 기반 · 실명 기반 · 기록 기반</p>
+          </div>
+        </div>
+
+        <div class="copy">
+          <p class="k reveal" data-delay="1">Closed Membership</p>
+          <h3 class="reveal" data-delay="2">신뢰는 구조에서 만들어집니다.</h3>
+          <p class="reveal" data-delay="3">
+가입 후 승인, 실명 기반 활동, 이력 중심 운영.
+회원 간 정보 공유는 폐쇄형 구조에서만 진행됩니다.
+이는 신뢰 가능한 네트워크를 만들기 위한 최소 조건입니다.
+          </p>
+          <ul class="bullets reveal" data-delay="4">
+            <li>가입 → 승인</li>
+            <li>실명 기반 활동</li>
+            <li>구매·렌탈·구독 이력 중심 운영</li>
+            <li>폐쇄형 정보 공유</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MEMBER ONLY ===== -->
+  <div class="member-only">
+
+    <!-- ART SERVICE (Gallery mix) -->
+    <section id="art" class="block">
+      <div class="container">
+        <div class="blockhead">
+          <h2 class="reveal" data-delay="0">Art · Purchase / Rental / Subscription</h2>
+          <p class="subnote reveal" data-delay="1">Art Service</p>
+        </div>
+
+        <div class="feature">
+          <div class="visual reveal" data-delay="0">
+            <div class="bg" style="background-image:url('https://images.pexels.com/photos/16037759/pexels-photo-16037759.jpeg?cs=srgb&dl=pexels-laura-paredis-1047081-16037759.jpg&fm=jpg');"></div>
+            <div class="overlay"></div>
+            <div class="caption">
+              <p class="cap-kicker">NOW</p>
+              <p class="cap-title">소유 · 활용 · 관리까지</p>
+            </div>
+          </div>
+
+          <div class="copy">
+            <p class="k reveal" data-delay="1">Art Service</p>
+            <h3 class="reveal" data-delay="2">미술을 ‘현재의 방식’으로.</h3>
+            <p class="reveal" data-delay="3">
+미술품 구매, 렌탈, 구독까지.
+공간·기간·목적에 맞춘 합리적 제안과 교체·관리 개념을 포함합니다.
+            </p>
+            <ul class="bullets reveal" data-delay="4">
+              <li>Purchase: 작가·작품·이력 중심 정보</li>
+              <li>Rental/Subscription: 공간 활용 중심</li>
+              <li>교체 및 관리 포함</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUTH (Corporate/Documentation 느낌) -->
+    <section id="auth" class="block">
+      <div class="container">
+        <div class="blockhead">
+          <h2 class="reveal" data-delay="0">Authentication Support</h2>
+          <p class="subnote reveal" data-delay="1">Verification</p>
+        </div>
+
+        <div class="feature reverse">
+          <div class="visual reveal" data-delay="0">
+            <div class="bg" style="background-image:url('https://images.pexels.com/photos/7534181/pexels-photo-7534181.jpeg?cs=srgb&dl=pexels-heyho-7534181.jpg&fm=jpg');"></div>
+            <div class="overlay"></div>
+            <div class="caption">
+              <p class="cap-kicker">NEXUS</p>
+              <p class="cap-title">연결된 전문성으로 검증을 지원</p>
+            </div>
+          </div>
+
+          <div class="copy">
+            <p class="k reveal" data-delay="1">Authentication</p>
+            <h3 class="reveal" data-delay="2">검증은 ‘연결’로 이루어져야 합니다.</h3>
+            <p class="reveal" data-delay="3">
+공신력 있는 감정기관·전문가 연계, 소장 작품 자료 정리,
+감정 결과 기록 및 이력 관리를 지원합니다.
+            </p>
+            <ul class="bullets reveal" data-delay="4">
+              <li>외부 감정기관/전문가 연계</li>
+              <li>자료 정리 및 기록</li>
+              <li>이력 관리</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUCTION (Auction scene) -->
+    <section id="auction" class="block">
+      <div class="container">
+        <div class="blockhead">
+          <h2 class="reveal" data-delay="0">Private Auction</h2>
+          <p class="subnote reveal" data-delay="1">Auction & Trade</p>
+        </div>
+
+        <div class="feature">
+          <div class="visual reveal" data-delay="0">
+            <div class="bg" style="background-image:url('https://images.pexels.com/photos/13312438/pexels-photo-13312438.jpeg?cs=srgb&dl=pexels-ryhnv-13312438.jpg&fm=jpg');"></div>
+            <div class="overlay"></div>
+            <div class="caption">
+              <p class="cap-kicker">PRIVATE</p>
+              <p class="cap-title">공개 시장이 아닌, 승인된 시장</p>
+            </div>
+          </div>
+
+          <div class="copy">
+            <p class="k reveal" data-delay="1">Private Auction</p>
+            <h3 class="reveal" data-delay="2">네트워크가 자산이 되는 구조.</h3>
+            <p class="reveal" data-delay="3">
+승인된 회원만 참여, 제한된 참여자 구조, 거래 이력 관리.
+신뢰 기반 중개 환경을 전제로 합니다.
+            </p>
+            <ul class="bullets reveal" data-delay="4">
+              <li>Approved members only</li>
+              <li>Limited participation</li>
+              <li>Trade history & records</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORPORATE (Boardroom) -->
+    <section id="corporate" class="block">
+      <div class="container">
+        <div class="blockhead">
+          <h2 class="reveal" data-delay="0">For Corporate Leaders</h2>
+          <p class="subnote reveal" data-delay="1">Corporate Art Solution</p>
+        </div>
+
+        <div class="feature reverse">
+          <div class="visual reveal" data-delay="0">
+            <div class="bg" style="background-image:url('https://images.pexels.com/photos/7534181/pexels-photo-7534181.jpeg?cs=srgb&dl=pexels-heyho-7534181.jpg&fm=jpg');"></div>
+            <div class="overlay"></div>
+            <div class="caption">
+              <p class="cap-kicker">CORPORATE</p>
+              <p class="cap-title">계약 · 증빙 · 기록 중심 운영</p>
+            </div>
+          </div>
+
+          <div class="copy">
+            <p class="k reveal" data-delay="1">For Corporate</p>
+            <h3 class="reveal" data-delay="2">취향은 판단이 됩니다.</h3>
+            <p class="reveal" data-delay="3">
+법인 명의 미술품 구매·렌탈·구독,
+계약·증빙·기록 중심 운영을 지원합니다.
+            </p>
+            <ul class="bullets reveal" data-delay="4">
+              <li>법인 명의 구매·렌탈·구독</li>
+              <li>Documentation & records</li>
+              <li>전문가 자문 기반 운영</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GOLF (Golf course) -->
+    <section id="golf" class="block">
+      <div class="container">
+        <div class="blockhead">
+          <h2 class="reveal" data-delay="0">Golf · Member Benefit</h2>
+          <p class="subnote reveal" data-delay="1">Golf Service</p>
+        </div>
+
+        <div class="feature">
+          <div class="visual reveal" data-delay="0">
+            <div class="bg" style="background-image:url('https://images.pexels.com/photos/8454586/pexels-photo-8454586.jpeg?cs=srgb&dl=pexels-andrewshelley-8454586.jpg&fm=jpg');"></div>
+            <div class="overlay"></div>
+            <div class="caption">
+              <p class="cap-kicker">GOLF</p>
+              <p class="cap-title">유명 골프장을 만나보세요</p>
+            </div>
+          </div>
+
+          <div class="copy">
+            <p class="k reveal" data-delay="1">Member Benefit</p>
+            <h3 class="reveal" data-delay="2">골프는 목적이 아니라, 연결입니다.</h3>
+            <p class="reveal" data-delay="3">
+미술 서비스 이용 회원을 위한 교류 서비스 중 하나입니다.
+명문 골프장 예약 지원, 회원 대회, 해외 투어를 제공합니다.
+            </p>
+            <ul class="bullets reveal" data-delay="4">
+              <li>명문 골프장 예약 지원</li>
+              <li>월·분기별 회원 대회</li>
+              <li>해외 골프 투어</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CULTURE (Wine & dining) -->
+    <section id="culture" class="block">
+      <div class="container">
+        <div class="blockhead">
+          <h2 class="reveal" data-delay="0">Culture & Experience</h2>
+          <p class="subnote reveal" data-delay="1">Beyond Ownership</p>
+        </div>
+
+        <div class="feature reverse">
+          <div class="visual reveal" data-delay="0">
+            <div class="bg" style="background-image:url('https://images.pexels.com/photos/33144646/pexels-photo-33144646.jpeg?cs=srgb&dl=pexels-buselliyy-33144646.jpg&fm=jpg');"></div>
+            <div class="overlay"></div>
+            <div class="caption">
+              <p class="cap-kicker">DINING</p>
+              <p class="cap-title">소유 이후의 경험</p>
+            </div>
+          </div>
+
+          <div class="copy">
+            <p class="k reveal" data-delay="1">Culture</p>
+            <h3 class="reveal" data-delay="2">품격은 ‘실천’으로 완성됩니다.</h3>
+            <p class="reveal" data-delay="3">
+소규모 프라이빗 전시, 와인 & 다이닝 모임,
+해외 미술관·박물관 투어, 오블리주 프로그램을 운영합니다.
+            </p>
+            <ul class="bullets reveal" data-delay="4">
+              <li>프라이빗 전시</li>
+              <li>와인 & 다이닝</li>
+              <li>해외 투어</li>
+              <li>오블리주 프로그램</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEMBER LOUNGE -->
+    <section id="lounge" class="block">
+      <div class="container">
+        <div class="blockhead">
+          <h2 class="reveal" data-delay="0">Member Lounge</h2>
+          <p class="subnote reveal" data-delay="1">Members Only</p>
+        </div>
+
+        <div class="feature">
+          <div class="visual reveal" data-delay="0">
+            <div class="bg" style="background-image:url('https://images.pexels.com/photos/12705470/pexels-photo-12705470.jpeg?cs=srgb&dl=pexels-bertellifotografia-12705470.jpg&fm=jpg');"></div>
+            <div class="overlay"></div>
+            <div class="caption">
+              <p class="cap-kicker">TRUST</p>
+              <p class="cap-title">정보는, 신뢰 위에서만 흐릅니다</p>
+            </div>
+          </div>
+
+          <div class="copy">
+            <p class="k reveal" data-delay="1">Members</p>
+            <h3 class="reveal" data-delay="2">폐쇄형 구조에서만 공유됩니다.</h3>
+            <p class="reveal" data-delay="3">
+멤버 간 정보 공유 영역(네트워크/컬렉션/거래 이력)으로 확장됩니다.
+            </p>
+            <ul class="bullets reveal" data-delay="4">
+              <li>My Collection</li>
+              <li>Member Network</li>
+              <li>Trade History</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <!-- ===== MEMBER ONLY END ===== -->
+
+  <!-- CONTACT (Guest friendly) -->
+  <section id="contact" class="block">
+    <div class="container">
+      <div class="blockhead">
+        <h2 class="reveal" data-delay="0">Contact</h2>
+        <p class="subnote reveal" data-delay="1">Inquiry</p>
+      </div>
+
+      <div class="feature">
+        <div class="visual reveal" data-delay="0">
+          <div class="bg" style="background-image:url('https://images.pexels.com/photos/7534181/pexels-photo-7534181.jpeg?cs=srgb&dl=pexels-heyho-7534181.jpg&fm=jpg');"></div>
+          <div class="overlay"></div>
+          <div class="caption">
+            <p class="cap-kicker">INQUIRY</p>
+            <p class="cap-title">멤버십 가입 및 서비스 문의</p>
+          </div>
+        </div>
+
+        <div class="copy">
+          <p class="k reveal" data-delay="1">Contact</p>
+          <h3 class="reveal" data-delay="2">문의 후, 승인을 통해 시작됩니다.</h3>
+          <p class="reveal" data-delay="3">
+멤버십 가입 및 서비스 이용을 위해서는 회원 가입 및 승인이 필요합니다.
+문의 남겨주시면 안내드리겠습니다.
+          </p>
+          <ul class="bullets reveal" data-delay="4">
+            <li>이메일: contact@artngolf.example</li>
+            <li>상담: 상단 ‘멤버십 문의’ 버튼</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footline">
+        <p class="footer-slogan reveal" data-delay="0">ART N GOLF — The Nexus of Art, Golf, and Now.</p>
+        <p class="footer-desc reveal" data-delay="1">
+artngolf는
+미술과 골프를 연결하고,
+사람과 사람을 연결하며,
+지금의 기준으로 품격을 정의합니다.
+        </p>
+        <div class="small reveal" data-delay="2">© ART N GOLF. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== Role toggle (Guest <-> Member) =====
+    const roleButtons = document.querySelectorAll("[data-set-role]");
+    const setRole = (role) => {
+      document.body.setAttribute("data-role", role);
+
+      roleButtons.forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-set-role") === role);
+      });
+
+      const hash = location.hash || "#home";
+      const memberHashes = ["#art","#auth","#auction","#corporate","#golf","#culture","#lounge"];
+      if (role === "guest" && memberHashes.includes(hash)) {
+        location.hash = "#home";
+      }
+      updateActiveMenu();
+    };
+
+    const updateActiveMenu = () => {
+      const hash = location.hash || "#home";
+      document.querySelectorAll(".menu a").forEach(a => {
+        a.classList.toggle("active", a.getAttribute("href") === hash);
+      });
+    };
+
+    roleButtons.forEach(btn => {
+      btn.addEventListener("click", () => setRole(btn.getAttribute("data-set-role")));
+    });
+
+    window.addEventListener("hashchange", updateActiveMenu);
+    updateActiveMenu();
+
+    // ===== Scroll reveal (PPT-like) =====
+    const targets = document.querySelectorAll(".reveal");
+
+    // data-delay 없으면 자동 부여(섹션 안에서도 자연스럽게)
+    targets.forEach((el, idx) => {
+      if (!el.dataset.delay) el.dataset.delay = String(idx % 5);
+    });
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            io.unobserve(entry.target); // 한 번만
+          }
+        });
+      },
+      { threshold: 0.18, rootMargin: "0px 0px -10% 0px" }
+    );
+
+    targets.forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>
