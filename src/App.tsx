@@ -80,25 +80,7 @@ const App: React.FC = () => {
     return () => io.disconnect();
   }, []);
 
-  const handleRoleChange = (nextRole: "guest" | "member") => {
-    if (nextRole === "guest") {
-      const memberHashes = [
-        "#art",
-        "#auth",
-        "#auction",
-        "#corporate",
-        "#golf",
-        "#culture",
-        "#lounge",
-        "#collection",
-      ];
-      if (memberHashes.includes(window.location.hash)) {
-        window.location.hash = "#home";
-      }
-    }
-
-    setRole(nextRole);
-  };
+  
 
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
