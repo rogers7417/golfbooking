@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import aboutImage from "../assets/images/hero-12705470.jpg";
 import galleryImage from "../assets/images/gallery-16037759.jpg";
@@ -9,6 +9,8 @@ import cultureImage from "../assets/images/culture-33144646.jpg";
 import heroVideo from "../assets/media/KakaoTalk_Video_2026-01-17-14-09-42.mp4";
 
 const HomePage: React.FC = () => {
+  const [isMuted, setIsMuted] = useState(true);
+
   useEffect(() => {
     document.body.setAttribute("data-page", "home");
     return () => {
@@ -24,7 +26,7 @@ const HomePage: React.FC = () => {
           src={heroVideo}
           autoPlay
           loop
-          muted
+          muted={isMuted}
           playsInline
           controls
         />
@@ -33,6 +35,15 @@ const HomePage: React.FC = () => {
           <p className="intro-video__kicker">ART N GOLF</p>
           <p className="intro-video__title">홈페이지 준비중</p>
         </div>
+        {isMuted ? (
+          <button
+            className="intro-video__sound"
+            type="button"
+            onClick={() => setIsMuted(false)}
+          >
+            소리 켜기
+          </button>
+        ) : null}
       </section>
 
       <section id="about" className="block content-hidden">
