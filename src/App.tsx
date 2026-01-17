@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import logoText from "./assets/logo/logo_text.png";
+import logoText from "./assets/logo/logo_text_1.png";
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
 
