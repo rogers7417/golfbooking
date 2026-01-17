@@ -37,9 +37,6 @@ const App: React.FC = () => {
     []
   );
 
-  const handleMenuClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-  };
 
   useEffect(() => {
     document.body.setAttribute("data-role", role);
@@ -120,7 +117,6 @@ const App: React.FC = () => {
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={handleMenuClick}
                   data-role="guest"
                   className={
                     activeHash && item.href.endsWith(activeHash) ? "active" : undefined
@@ -133,7 +129,6 @@ const App: React.FC = () => {
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={handleMenuClick}
                   data-role="member"
                   className={
                     activeHash && item.href.endsWith(activeHash) ? "active" : undefined
