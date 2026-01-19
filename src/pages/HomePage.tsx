@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import aboutImage from "../assets/images/hero-12705470.jpg";
 import galleryImage from "../assets/images/gallery-16037759.jpg";
@@ -6,69 +6,46 @@ import authImage from "../assets/images/auth-7534181.jpg";
 import auctionImage from "../assets/images/auction-13312438.jpg";
 import golfImage from "../assets/images/golf-8454586.jpg";
 import cultureImage from "../assets/images/culture-33144646.jpg";
+import heroVideo from "../assets/media/KakaoTalk_Video_2026-01-19-11-15-07.mp4";
 const HomePage: React.FC = () => {
+  const [isMuted, setIsMuted] = useState(true);
+
+  useEffect(() => {
+    document.body.setAttribute("data-page", "home");
+    return () => {
+      document.body.removeAttribute("data-page");
+    };
+  }, []);
+
   return (
     <>
-      <header id="home" className="hero">
-        <div className="container">
-          <p className="kicker reveal" data-delay="0">
-            ART N GOLF
-          </p>
-
-          <div className="hero-grid">
-            <div>
-              <h1 className="reveal" data-delay="1">
-                미술과 골프,
-                <br />
-                그리고 지금 이 시대의 <span className="accent">품격</span>을
-                연결합니다.
-              </h1>
-
-              <p className="lead reveal" data-delay="2">
-                {`artngolf의 N은 단순한 연결 기호가 아닙니다.
-AND(동시성), NEXUS(연결점), NETWORK(신뢰의 네트워크),
-NOBLESSE(품격), NOW(지금의 시대성).
-artngolf는
-미술을 소유하고, 이해하고, 활용하는 현재의 방식을 제시합니다.`}
-              </p>
-
-              <div className="pillrow">
-                <div className="pill reveal" data-delay="3">
-                  <span className="dot" /> AND
-                </div>
-                <div className="pill reveal" data-delay="3">
-                  <span className="dot" /> NEXUS
-                </div>
-                <div className="pill reveal" data-delay="4">
-                  <span className="dot" /> NETWORK
-                </div>
-                <div className="pill reveal" data-delay="4">
-                  <span className="dot" /> NOBLESSE
-                </div>
-                <div className="pill reveal" data-delay="5">
-                  <span className="dot" /> NOW
-                </div>
-              </div>
-
-              <div className="access-banner reveal" data-delay="1">
-                {`비회원(GUEST) 상태입니다.
-서비스 이용을 위해서는 회원 가입 및 승인이 필요합니다.
-일부 콘텐츠는 회원 전용으로 제공됩니다.`}
-              </div>
-            </div>
-
-            <div className="hero-card reveal" data-delay="2" aria-label="Hero visual">
-              <div className="hero-img" />
-              <div className="hero-caption">
-                <p className="mini">Signature Collection</p>
-                <p className="title">공간을 전시처럼 설계하는 프리미엄 아트 멤버십.</p>
-              </div>
-            </div>
-          </div>
+      <section className="intro-video" aria-label="Full screen intro video">
+        <video
+          className="intro-video__media"
+          src={heroVideo}
+          autoPlay
+          loop
+          muted={isMuted}
+          playsInline
+          controls
+        />
+        <div className="intro-video__overlay" />
+        <div className="intro-video__label">
+          <p className="intro-video__kicker">ART N GOLF</p>
+          <p className="intro-video__title">홈페이지 준비중</p>
         </div>
-      </header>
+        {isMuted ? (
+          <button
+            className="intro-video__sound"
+            type="button"
+            onClick={() => setIsMuted(false)}
+          >
+            소리 켜기
+          </button>
+        ) : null}
+      </section>
 
-      <section id="about" className="block">
+      <section id="about" className="block content-hidden">
         <div className="container">
           <span id="why-n" className="anchor" />
           <span id="platform-philosophy" className="anchor" />
@@ -135,7 +112,7 @@ N은 다섯 가지 의미를 담고 있으며, 동시에 작동하는 구조입�
         </div>
       </section>
 
-      <section id="membership" className="block">
+      <section id="membership" className="block content-hidden">
         <div className="container">
           <span id="membership-guide" className="anchor" />
           <div className="blockhead">
@@ -185,7 +162,7 @@ N은 다섯 가지 의미를 담고 있으며, 동시에 작동하는 구조입�
         </div>
       </section>
 
-      <div className="member-only">
+      <div className="member-only content-hidden">
         <section id="art" className="block">
           <div className="container">
             <div className="blockhead">
