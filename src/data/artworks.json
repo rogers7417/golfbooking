@@ -1,0 +1,290 @@
+[
+  {
+    "id": 1,
+    "artist": "이대원",
+    "title": "농원",
+    "material": "oil on Canvas",
+    "size": "20호P",
+    "dimensions": "72.7x53",
+    "image": "(1)56.jpg"
+  },
+  {
+    "id": 2,
+    "artist": "하인두",
+    "title": "무제",
+    "year": "1970",
+    "material": "철판에 유채",
+    "size": "12호M",
+    "dimensions": "60x40",
+    "image": "(2)353.png"
+  },
+  {
+    "id": 3,
+    "artist": "하인두",
+    "title": "무제",
+    "year": "1986",
+    "material": "캔버스에 유채",
+    "size": "12호F",
+    "dimensions": "60.6x50",
+    "image": "(3)394-2.jpg"
+  },
+  {
+    "id": 4,
+    "artist": "천경자",
+    "title": "인물",
+    "material": "종이에 채색",
+    "size": "6호F",
+    "dimensions": "31x40.7",
+    "image": "(4)95.png"
+  },
+  {
+    "id": 5,
+    "artist": "천경자",
+    "title": "금붕어",
+    "material": "종이에 채색",
+    "size": "6호S",
+    "dimensions": "31.4x33.5",
+    "image": "(5)47.jpg"
+  },
+  {
+    "id": 6,
+    "artist": "이우환",
+    "title": "Correspondance",
+    "material": "oil and mineral pigment on canvas",
+    "size": "8호F",
+    "dimensions": "37.9x45.5",
+    "image": "(6)42.jpg"
+  },
+  {
+    "id": 7,
+    "artist": "이우환",
+    "title": "With Winds",
+    "year": "1990",
+    "material": "oil and mineral pigment on canvas",
+    "size": "30호F",
+    "dimensions": "90.9x72.7",
+    "image": "(7)335.jpg"
+  },
+  {
+    "id": 8,
+    "artist": "이우환",
+    "title": "From Point No. 780332",
+    "material": "oil and mineral pigment on canvas",
+    "size": "20호",
+    "dimensions": "72.7x60.6",
+    "image": "(8)336.jpg"
+  },
+  {
+    "id": 9,
+    "artist": "이우환",
+    "title": "From Point No. 770260",
+    "material": "oil and mineral pigment on canvas",
+    "size": "20호",
+    "dimensions": "72.7x60.6",
+    "image": "(9)334.jpg"
+  },
+  {
+    "id": 10,
+    "artist": "이우환",
+    "title": "From Line No. 79174",
+    "material": "oil and mineral pigment on canvas",
+    "size": "50호F",
+    "dimensions": "116.8x91",
+    "image": "(10)122.jpg"
+  },
+  {
+    "id": 11,
+    "artist": "이우환",
+    "title": "From Line No. 780476",
+    "material": "oil and mineral pigment on canvas",
+    "size": "30호F",
+    "dimensions": "73x91",
+    "image": "(11)87.jpg"
+  },
+  {
+    "id": 12,
+    "artist": "이우환",
+    "title": "From Point No. 780366",
+    "material": "oil and mineral pigment on canvas",
+    "size": "8호F",
+    "dimensions": "45.5x37.9",
+    "image": "(12)24.jpg"
+  },
+  {
+    "id": 13,
+    "artist": "도상봉",
+    "title": "라일락",
+    "material": "oil on canvas",
+    "size": "15호P",
+    "dimensions": "65.1x50",
+    "image": "(13)494.png"
+  },
+  {
+    "id": 14,
+    "artist": "도상봉",
+    "title": "정물화",
+    "material": "oil on canvas",
+    "size": "6호",
+    "dimensions": "33.4x24.2",
+    "image": "(14)495.png"
+  },
+  {
+    "id": 15,
+    "artist": "도상봉",
+    "title": "국화",
+    "material": "oil on canvas",
+    "size": "6호",
+    "dimensions": "38.3x46",
+    "image": "(15)503.png"
+  },
+  {
+    "id": 16,
+    "artist": "김창열",
+    "title": "물방울 S.A.92008",
+    "year": "1992",
+    "material": "oil on canvas",
+    "size": "50호F",
+    "dimensions": "116.8x91",
+    "image": "(16)16.jpg"
+  },
+  {
+    "id": 17,
+    "artist": "김창열",
+    "title": "물방울 S.A.93012",
+    "year": "1993",
+    "material": "oil on canvas",
+    "size": "20호F",
+    "dimensions": "72.7x60.6",
+    "image": "(17)15.jpg"
+  },
+  {
+    "id": 18,
+    "artist": "김창열",
+    "title": "S.A.92002-1992",
+    "year": "1992",
+    "material": "oil on canvas",
+    "size": "100호F",
+    "dimensions": "162.2x130.3",
+    "image": "(18)86.jpg"
+  },
+  {
+    "id": 19,
+    "artist": "김창열",
+    "title": "물방울 S.A.92005-1992",
+    "year": "1992",
+    "material": "oil on canvas",
+    "size": "10호F",
+    "dimensions": "53x45.5",
+    "image": "(19)342.jpg"
+  },
+  {
+    "id": 20,
+    "artist": "이만익",
+    "title": "아우래비 접동 (누나새)",
+    "material": "oil on canvas",
+    "size": "120호F",
+    "dimensions": "193.9x130.3",
+    "image": "(20)612-350dpi.png"
+  },
+  {
+    "id": 21,
+    "artist": "이만익",
+    "title": "승무",
+    "material": "oil on canvas",
+    "size": "30호",
+    "dimensions": "90.5x65",
+    "image": "(8)337.jpg"
+  },
+  {
+    "id": 22,
+    "artist": "박고석",
+    "title": "1985",
+    "year": "1985",
+    "material": "oil on canvas",
+    "size": "20호F",
+    "dimensions": "72.7x60.6",
+    "image": "(9)340.jpg"
+  },
+  {
+    "id": 23,
+    "artist": "장욱진",
+    "title": "가족",
+    "material": "oil on Canvas",
+    "size": "8호F",
+    "dimensions": "45.7x38.5",
+    "image": "(12)341.jpg"
+  },
+  {
+    "id": 24,
+    "artist": "서세옥",
+    "title": "사람들",
+    "material": "닥종이에 수묵",
+    "size": "8호F",
+    "dimensions": "142.3x98.7",
+    "image": "(14)650-1-350dpi_밝기수정.jpg"
+  },
+  {
+    "id": 25,
+    "artist": "박생광",
+    "title": "목단",
+    "material": "종이에 수묵채색",
+    "size": "30호S",
+    "dimensions": "72x72",
+    "image": "(19)478.png"
+  },
+  {
+    "id": 26,
+    "artist": "박생광",
+    "title": "무속",
+    "material": "종이에 수묵채색",
+    "size": "30호S",
+    "dimensions": "69.6x69.6",
+    "image": "(19)516.jpg"
+  },
+  {
+    "id": 27,
+    "artist": "쿠사마 야요이",
+    "title": "호박",
+    "year": "1990",
+    "material": "판화 32/100",
+    "size": "이미지 48x40.5",
+    "dimensions": "52.5x45.6",
+    "image": "(19)517.jpg"
+  },
+  {
+    "id": 28,
+    "artist": "상감청자",
+    "title": "인물매송문매병",
+    "material": "상감청자",
+    "size": "고 55",
+    "dimensions": "55x7.1x21x26",
+    "image": "(20)744-1.png"
+  },
+  {
+    "id": 29,
+    "artist": "상감청자",
+    "title": "진사채운학문매병",
+    "material": "상감청자",
+    "size": "고 40",
+    "dimensions": "40x7.5x16.5x25.5",
+    "image": "(20)746-1.png"
+  },
+  {
+    "id": 30,
+    "artist": "상감청자",
+    "title": "모란문표형주자",
+    "material": "상감청자",
+    "size": "고 43",
+    "dimensions": "43x2.5x13.3x28.5",
+    "image": "(20)747-1.png"
+  },
+  {
+    "id": 31,
+    "artist": "상감청자",
+    "title": "동채연화문표형주자",
+    "material": "상감청자",
+    "size": "고 42.5",
+    "dimensions": "42.5x5.5x12.3x26.5",
+    "image": "(20)751-1.png"
+  }
+]

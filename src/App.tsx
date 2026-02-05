@@ -3,6 +3,8 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import logoText from "./assets/logo/logo_text_1.png";
 import HomePage from "./pages/HomePage";
 import ProductsPage from "./pages/ProductsPage";
+import ExhibitionPage from "./pages/ExhibitionPage";
+import PrivateNPage from "./pages/PrivateNPage";
 
 const App: React.FC = () => {
   const [role, setRole] = useState<"guest" | "member">("guest");
@@ -14,25 +16,30 @@ const App: React.FC = () => {
   const [loginMessage, setLoginMessage] = useState("");
   const location = useLocation();
 
+  // 페이지 전환 시 스크롤을 맨 위로
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [location.pathname]);
+
   const guestMenu = useMemo(
     () => [
-      { href: "/#about", label: "About artngolf" },
-      { href: "/#why-n", label: "Why N" },
-      { href: "/#platform-philosophy", label: "Platform Philosophy" },
-      { href: "/#membership-guide", label: "Membership Guide" },
-      { href: "/#contact", label: "Contact" },
+      { href: "/#about", label: "ABOUT" },
+      { href: "/#art-asset", label: "ART ASSET" },
+      { href: "/#golf-privilege", label: "GOLF PRIVILEGE" },
+      { href: "/#advisory", label: "ADVISORY" },
+      { href: "/private-n", label: "PRIVATE N" },
+      { href: "/#contact", label: "CONTACT" },
     ],
     []
   );
 
   const memberMenu = useMemo(
     () => [
-      { href: "/#art", label: "Art Service (구매 / 렌탈 / 구독)" },
-      { href: "/#auth", label: "Authentication Support" },
-      { href: "/#lounge", label: "Member Lounge" },
-      { href: "/#culture", label: "Culture & Experience" },
-      { href: "/#golf", label: "Golf · Member Benefit" },
-      { href: "/#collection", label: "My Collection (등록·관리)" },
+      { href: "/#about", label: "ABOUT" },
+      { href: "/#art-asset-detail", label: "ART ASSET" },
+      { href: "/#golf-privilege-detail", label: "GOLF PRIVILEGE" },
+      { href: "/#advisory-detail", label: "ADVISORY" },
+      { href: "/private-n", label: "PRIVATE N" },
     ],
     []
   );
@@ -42,16 +49,24 @@ const App: React.FC = () => {
     document.body.setAttribute("data-role", role);
   }, [role]);
 
+  // 스냅 섹션 관찰: 현재 뷰포트에 진입하는 섹션의 id를 활성 해시로 동기화
   useEffect(() => {
-    const updateHash = () => {
-      setActiveHash(window.location.hash || "");
-    };
+    const sections = document.querySelectorAll<HTMLElement>("section.block");
 
-    updateHash();
-    window.addEventListener("hashchange", updateHash);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveHash("#" + entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
 
-    return () => window.removeEventListener("hashchange", updateHash);
-  }, []);
+    sections.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [role, location.key]);
 
   useEffect(() => {
     const targets = Array.from(
@@ -104,68 +119,99 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="app-root">
-      <div className="topbar">
-        <div className="container">
-          <div className="nav">
-            <div className="brand">
-              <img src={logoText} alt="ART N GOLF" className="brand-logo" />
-            </div>
+    <div className={`app-root ${location.pathname === '/exhibition' || location.pathname === '/private-n' ? 'no-snap' : ''}`}>
+      {/* Main Site Topbar - Hide on PRIVATE N page */}
+      {location.pathname !== '/private-n' && (
+        <div className="topbar">
+          <div className="container">
+            <div className="nav">
+              {/* PRIVATE N Button - Far Left */}
+              <button
+                className="private-n-menu-btn"
+                onClick={() => window.location.href = "/private-n"}
+              >
+                PRIVATE N
+              </button>
 
-            <nav className="menu" aria-label="Primary">
-              {guestMenu.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  data-role="guest"
-                  className={
-                    activeHash && item.href.endsWith(activeHash) ? "active" : undefined
-                  }
-                >
-                  {item.label}
-                </a>
-              ))}
-              {memberMenu.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  data-role="member"
-                  className={
-                    activeHash && item.href.endsWith(activeHash) ? "active" : undefined
-                  }
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
+              <div className="brand" onClick={() => window.location.href = "/"} style={{ cursor: "pointer" }}>
+                <img src={logoText} alt="ART N GOLF" className="brand-logo" />
+              </div>
 
-            <div className="cta">
-              {role === "guest" ? (
-                <>
-                  <button
-                    className="btn"
-                    type="button"
-                    onClick={() => {
-                      setIsLoginOpen(true);
-                      setLoginStatus("idle");
-                      setLoginMessage("");
-                    }}
-                  >
-                    로그인
-                  </button>
-                  <button className="btn primary" type="button">
-                    멤버십 문의
-                  </button>
-                </>
-              ) : null}
+              <nav className="menu" aria-label="Primary">
+                {guestMenu.filter(item => item.href !== '/private-n').map((item) => {
+                  const id = item.href.replace("/#", "");
+                  const isRoute = item.href.startsWith("/");
+                  return (
+                    <button
+                      key={item.href}
+                      type="button"
+                      data-role="guest"
+                      className={isRoute && location.pathname === item.href ? "active" : !isRoute && activeHash === "#" + id ? "active" : undefined}
+                      onClick={() => {
+                        if (isRoute) {
+                          window.location.href = item.href;
+                        } else {
+                          document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
+                {memberMenu.filter(item => item.href !== '/private-n').map((item) => {
+                  const id = item.href.replace("/#", "");
+                  const isRoute = item.href.startsWith("/");
+                  return (
+                    <button
+                      key={item.href}
+                      type="button"
+                      data-role="member"
+                      className={isRoute && location.pathname === item.href ? "active" : !isRoute && activeHash === "#" + id ? "active" : undefined}
+                      onClick={() => {
+                        if (isRoute) {
+                          window.location.href = item.href;
+                        } else {
+                          document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
+              </nav>
+
+              <div className="cta">
+                {role === "guest" ? (
+                  <>
+                    <button
+                      className="btn"
+                      type="button"
+                      onClick={() => {
+                        setIsLoginOpen(true);
+                        setLoginStatus("idle");
+                        setLoginMessage("");
+                      }}
+                    >
+                      로그인
+                    </button>
+                    <button className="btn primary" type="button">
+                      멤버십 문의
+                    </button>
+                  </>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/exhibition" element={<ExhibitionPage />} />
+        <Route path="/private-n" element={<PrivateNPage />} />
       </Routes>
 
       {isLoginOpen ? (

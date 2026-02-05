@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import productHero from "../assets/products/unnamed-removebg-preview.png";
+import productHero from "../assets/products/product-hero.png";
 
 const ProductsPage: React.FC = () => {
   const categories = [

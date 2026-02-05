@@ -1,595 +1,483 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import aboutImage from "../assets/images/hero-12705470.jpg";
-import galleryImage from "../assets/images/gallery-16037759.jpg";
-import authImage from "../assets/images/auth-7534181.jpg";
-import auctionImage from "../assets/images/auction-13312438.jpg";
-import golfImage from "../assets/images/golf-8454586.jpg";
-import cultureImage from "../assets/images/culture-33144646.jpg";
-import heroVideo from "../assets/media/KakaoTalk_Video_2026-01-19-11-15-07.mp4";
-const HomePage: React.FC = () => {
-  const [isMuted, setIsMuted] = useState(true);
+import aboutImg from "../assets/products/about-bg.png";
+import golfImg from "../assets/images/golf-8454586.jpg";
+import advisoryImg from "../assets/images/gallery-16037759.jpg";
+import contactImg from "../assets/images/culture-33144646.jpg";
+
+import slide01 from "../assets/products/slide-01.jpg";
+import slide02 from "../assets/products/slide-02.jpg";
+import slide03 from "../assets/products/slide-03.jpg";
+import slide04 from "../assets/products/slide-04.jpg";
+import slide05 from "../assets/products/slide-05.jpg";
+import slide06 from "../assets/products/slide-06.jpg";
+import slide07 from "../assets/products/slide-07.jpg";
+import slide08 from "../assets/products/slide-08.jpg";
+import slide09 from "../assets/products/slide-09.jpg";
+import slide10 from "../assets/products/slide-10.jpg";
+import slide11 from "../assets/products/slide-11.png";
+import slide12 from "../assets/products/slide-12.png";
+import slide13 from "../assets/products/slide-13.png";
+import slide14 from "../assets/products/slide-14.png";
+
+const slides = [
+  slide01, slide02, slide03, slide04, slide05, slide06, slide07,
+  slide08, slide09, slide10, slide11, slide12, slide13, slide14,
+];
+
+/* ─── 배경 이미지 FadeOut/In ─── */
+const ArtSlider: React.FC = () => {
+  const [cur, setCur] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    document.body.setAttribute("data-page", "home");
-    return () => {
-      document.body.removeAttribute("data-page");
-    };
+    timerRef.current = setInterval(() => {
+      setCur((c) => (c + 1) % slides.length);
+    }, 5000);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
   return (
-    <>
-      <section className="intro-video" aria-label="Full screen intro video">
-        <video
-          className="intro-video__media"
-          src={heroVideo}
-          autoPlay
-          loop
-          muted={isMuted}
-          playsInline
-          controls
+    <div className="aa-bg">
+      {slides.map((src, i) => (
+        <img
+          key={i}
+          src={src}
+          alt=""
+          className="aa-bg-img"
+          style={{ opacity: i === cur ? 1 : 0 }}
         />
-        <div className="intro-video__overlay" />
-        <div className="intro-video__label">
-          <p className="intro-video__kicker">ART N GOLF</p>
-          <p className="intro-video__title">홈페이지 준비중</p>
-        </div>
-        {isMuted ? (
-          <button
-            className="intro-video__sound"
-            type="button"
-            onClick={() => setIsMuted(false)}
-          >
-            소리 켜기
-          </button>
-        ) : null}
-      </section>
+      ))}
+    </div>
+  );
+};
 
-      <section id="about" className="block content-hidden">
-        <div className="container">
-          <span id="why-n" className="anchor" />
-          <span id="platform-philosophy" className="anchor" />
-          <div className="blockhead">
-            <h2 className="reveal" data-delay="0">
-              Why N?
-            </h2>
-            <p className="subnote reveal" data-delay="1">
-              About artngolf
+/* ─── 전시 공간 입장 버튼 ─── */
+const ExhibitionEntry: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="aa-exhibition">
+      <Link to="/exhibition" className="aa-exhibition-btn">
+        전시 공간 입장
+      </Link>
+      {open && (
+        <div className="aa-exhibition-modal">
+          <div className="aa-exhibition-content">
+            <button className="aa-exhibition-close" onClick={() => setOpen(false)}>✕</button>
+
+            <h3 className="aa-exhibition-title">회원 전용 서비스 안내</h3>
+
+            <div className="aa-exhibition-sections">
+              <div className="aa-exhibition-item">
+                <h4>법적·제도적 운영 원칙</h4>
+                <p>미술품 렌탈 시 법인 비용처리가 가능합니다. 감가상각, 손금산입 등 회계·세무 처리 방법을 자문 전문가와 함께 검토합니다.</p>
+              </div>
+
+              <div className="aa-exhibition-item">
+                <h4>법인 렌탈 조건 시뮬레이션</h4>
+                <p>작품 가액, 렌탈 기간, 법인 형태에 따른 맞춤형 조건을 시뮬레이션할 수 있습니다. 상세 조건은 회원 가입 후 확인 가능합니다.</p>
+              </div>
+
+              <div className="aa-exhibition-item">
+                <h4>개인 소장품 등록 시스템</h4>
+                <p>보유 중인 미술품을 자산으로 등록하고 관리할 수 있습니다. 감정, 평가, 보험 일괄 서비스가 제공되며, 등록 절차는 회원 가입 후 안내됩니다.</p>
+              </div>
+            </div>
+
+            <div className="aa-exhibition-auth">
+              <p className="aa-exhibition-auth-text">상세 내용을 확인하시려면 회원 가입이 필요합니다.</p>
+              <div className="aa-exhibition-auth-buttons">
+                <Link to="/exhibition" className="aa-exhibition-auth-btn primary">전시 공간 입장</Link>
+                <Link to="/exhibition" className="aa-exhibition-auth-btn secondary">전시 공간 입장</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ─── Network 토글 (Golf Privilege) ─── */
+const NetworkToggle: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="gp-network">
+      <button type="button" className="gp-network-btn" onClick={() => setOpen((v) => !v)}>
+        <span className="gp-network-label">NETWORK</span>
+        <span className={`gp-network-arrow${open ? " open" : ""}`}>›</span>
+      </button>
+      {open && (
+        <div className="gp-network-body">
+          <p>
+            프라이빗 골프 네트워크로 연결되는 관계의 구조입니다.
+          </p>
+          <ul>
+            <li>회원 등급별 단계적 접근 혜택</li>
+            <li>국내·해외 명문 골프장 예약 우선권</li>
+            <li>프라이빗 대회 및 이벤트 초청</li>
+            <li>해외투어 큐레이팅 및 수행 서비스</li>
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ─── NOBLESSE 토글 (Advisory) ─── */
+const NoblesseToggle: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="ad-noblesse">
+      <button type="button" className="ad-noblesse-btn" onClick={() => setOpen((v) => !v)}>
+        <span className="ad-noblesse-label">&lt;NOBLESSE&gt;</span>
+        <span className={`ad-noblesse-arrow${open ? " open" : ""}`}>›</span>
+      </button>
+      {open && (
+        <div className="ad-noblesse-body">
+          <p>품격은 과시가 아니라, 태도와 선택에서 완성됩니다.</p>
+          <p>아트 자산의 판단은 취향을 넘어 기준과 근거로 움직입니다.</p>
+          <p>모든 평가는 전문가의 근거 위에서 이루어집니다.</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ─── AND 토글 (Contact) ─── */
+const AndToggle: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="ct-and">
+      <button type="button" className="ct-and-btn" onClick={() => setOpen((v) => !v)}>
+        <span className="ct-and-label">&lt;AND&gt;</span>
+        <span className={`ct-and-arrow${open ? " open" : ""}`}>›</span>
+      </button>
+      {open && (
+        <div className="ct-and-body">
+          <p className="ct-and-title">회원 신청</p>
+          <form className="ct-form">
+            <input type="text" placeholder="성함" className="ct-input" />
+            <input type="email" placeholder="이메일" className="ct-input" />
+            <input type="tel" placeholder="연락처" className="ct-input" />
+            <textarea placeholder="신청 사유 및 소개" className="ct-textarea" rows={4} />
+            <button type="submit" className="ct-submit">제출하기</button>
+          </form>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const HomePage: React.FC = () => {
+  return (
+    <>
+      {/* ===== ABOUT — Guest & Member 공통 ===== */}
+      <section id="about" className="block about-full" style={{ backgroundImage: `url(${aboutImg})` }}>
+        <div className="about-overlay" />
+        <div className="about-content">
+          <div className="about-label">
+            <span className="about-label-main">ABOUT</span>
+            <span className="about-label-sub">Heritage &amp; Vision</span>
+          </div>
+          <h2 className="about-title">
+            예술과 골프를,<br />자산의 구조로 바라본다.
+          </h2>
+          <p className="about-body">
+            {`Art N Golf는 예술과 골프를 취향의 영역이 아닌\n'자산의 구조'로 바라보는 질문에서 출발했습니다.\n미술품은 감상의 대상이기 이전에 시간을 견디는 가치이며,\n골프는 여가가 아니라 관계와 신뢰가 완성되는 공간입니다.`}
+          </p>
+          <p className="about-body">
+            {`이 두 세계를 법과 제도, 회계와 금융의 틀 안에서\n정제된 방식으로 연결하고 싶었습니다.\n그 결과가 아트 자산 관리와 프라이빗 골프 네트워크를\n하나의 통합 자산 아키텍처로 설계한 Art N Golf입니다.`}
+          </p>
+          <div className="founder-note">
+            <p className="founder-label">Founder, Art N Golf</p>
+            <p className="founder-text">
+              {`Art N Golf는 모두를 위한 서비스가 아닙니다.\n가치를 이해하는 소수와 함께,\n품격 있는 자산의 미래를 설계합니다.`}
             </p>
           </div>
-
-          <div className="feature">
-            <div className="visual reveal" data-delay="0">
-              <div
-                className="bg"
-                style={{
-                  backgroundImage: `url(${aboutImage})`,
-                }}
-              />
-              <div className="overlay" />
-              <div className="caption">
-                <p className="cap-kicker">GALLERY</p>
-                <p className="cap-title">전시처럼, 기준을 세웁니다.</p>
-              </div>
-            </div>
-
-            <div className="copy">
-              <p className="k reveal" data-delay="1">
-                Platform Philosophy
-              </p>
-              <h3 className="reveal" data-delay="2">
-                N은 연결이 아니라, 기준입니다.
-              </h3>
-              <p className="reveal" data-delay="3">
-                {`artngolf는 미술과 골프를 단순히 결합한 플랫폼이 아닙니다.
-N은 다섯 가지 의미를 담고 있으며, 동시에 작동하는 구조입니다.`}
-              </p>
-
-              <div className="n-strip">
-                <div className="n-chip reveal" data-delay="1">
-                  <p className="t">AND</p>
-                  <p className="d">동시성</p>
-                </div>
-                <div className="n-chip reveal" data-delay="2">
-                  <p className="t">NEXUS</p>
-                  <p className="d">연결점</p>
-                </div>
-                <div className="n-chip reveal" data-delay="3">
-                  <p className="t">NETWORK</p>
-                  <p className="d">신뢰 네트워크</p>
-                </div>
-                <div className="n-chip reveal" data-delay="4">
-                  <p className="t">NOBLESSE</p>
-                  <p className="d">품격</p>
-                </div>
-                <div className="n-chip reveal" data-delay="5">
-                  <p className="t">NOW</p>
-                  <p className="d">시대성</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
-      <section id="membership" className="block content-hidden">
-        <div className="container">
-          <span id="membership-guide" className="anchor" />
-          <div className="blockhead">
-            <h2 className="reveal" data-delay="0">
-              Membership is Trust
+      {/* ===== Guest 섹션 (비회원) ===== */}
+        <section id="art-asset" className="block guest-only art-asset-section">
+          {/* 배경: 작품 이미지 FadeOut/In */}
+          <ArtSlider />
+          {/* 오버레이: 오른쪽 그림 → 왼쪽으로 흰색 페이드 (ABOUT의 역방향) */}
+          <div className="aa-overlay" />
+          {/* 왼쪽 텍스트 영역 */}
+          <div className="aa-content">
+            <div className="aa-label-row">
+              <span className="aa-label-main">ART ASSET</span>
+              <span className="aa-label-sub">Art Asset Management</span>
+            </div>
+            <h2 className="aa-title">
+              미술품의 구매, 관리, 렌탈, 가치평가까지<br />
+              하나의 흐름으로 설계된 아트 자산 관리.
             </h2>
-            <p className="subnote reveal" data-delay="1">
-              Membership
+
+            <p className="aa-desc">
+              작품 구매 &amp; 컬렉션 구축 · 법인 대상 아트 렌탈 · 개인 소장품의 관리 및 자산화 · 전환시장가치 기반 평가 시스템까지<br />
+              미술을 금융자산처럼 관리하는 새로운 기준을 제시합니다.
             </p>
-          </div>
-
-          <div className="feature reverse">
-            <div className="visual reveal" data-delay="0">
-              <div
-                className="bg"
-                style={{
-                  backgroundImage: `url(${galleryImage})`,
-                }}
-              />
-              <div className="overlay" />
-              <div className="caption">
-                <p className="cap-kicker">NETWORK</p>
-                <p className="cap-title">승인 기반 · 실명 기반 · 기록 기반</p>
-              </div>
-            </div>
-
-            <div className="copy">
-              <p className="k reveal" data-delay="1">
-                Closed Membership
-              </p>
-              <h3 className="reveal" data-delay="2">
-                신뢰는 구조에서 만들어집니다.
-              </h3>
-              <p className="reveal" data-delay="3">
-                {`가입 후 승인, 실명 기반 활동, 이력 중심 운영.
-회원 간 정보 공유는 폐쇄형 구조에서만 진행됩니다.
-이는 신뢰 가능한 네트워크를 만들기 위한 최소 조건입니다.`}
-              </p>
-              <ul className="bullets reveal" data-delay="4">
-                <li>가입 → 승인</li>
-                <li>실명 기반 활동</li>
-                <li>구매·렌탈·구독 이력 중심 운영</li>
-                <li>폐쇄형 정보 공유</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="member-only content-hidden">
-        <section id="art" className="block">
-          <div className="container">
-            <div className="blockhead">
-              <h2 className="reveal" data-delay="0">
-                Art · Purchase / Rental / Subscription
-              </h2>
-              <p className="subnote reveal" data-delay="1">
-                Art Service
-              </p>
-            </div>
-
-            <div className="feature">
-              <div className="visual reveal" data-delay="0">
-                <div
-                  className="bg"
-                  style={{
-                    backgroundImage: `url(${galleryImage})`,
-                  }}
-                />
-                <div className="overlay" />
-                <div className="caption">
-                  <p className="cap-kicker">NOW</p>
-                  <p className="cap-title">소유 · 활용 · 관리까지</p>
-                </div>
-              </div>
-
-              <div className="copy">
-                <p className="k reveal" data-delay="1">
-                  Art Service
-                </p>
-                <h3 className="reveal" data-delay="2">
-                  미술을 ‘현재의 방식’으로.
-                </h3>
-                <p className="reveal" data-delay="3">
-                  {`미술품 구매, 렌탈, 구독까지.
-공간·기간·목적에 맞춘 합리적 제안과 교체·관리 개념을 포함합니다.`}
-                </p>
-                <ul className="bullets reveal" data-delay="4">
-                  <li>Purchase: 작가·작품·이력 중심 정보</li>
-                  <li>Rental/Subscription: 공간 활용 중심</li>
-                  <li>교체 및 관리 포함</li>
-                </ul>
-                <div className="section-actions reveal" data-delay="4">
-                  <Link className="btn primary" to="/products">
-                    상품 보기
-                  </Link>
-                </div>
-              </div>
-            </div>
+            <ExhibitionEntry />
           </div>
         </section>
 
-        <section id="auth" className="block">
-          <div className="container">
-            <div className="blockhead">
-              <h2 className="reveal" data-delay="0">
-                Authentication Support
-              </h2>
-              <p className="subnote reveal" data-delay="1">
-                Verification
-              </p>
+        <section id="golf-privilege" className="block guest-only gp-section">
+          {/* 배경: 골프장 사진 */}
+          <div className="gp-bg" style={{ backgroundImage: `url(${golfImg})` }} />
+          {/* 오버레이: 양쪽 흰색 */}
+          <div className="gp-overlay" />
+
+          {/* 왼쪽 텍스트 영역 */}
+          <div className="gp-content">
+            <div className="gp-label-row">
+              <span className="gp-label-main">GOLF PRIVILEGE</span>
+              <span className="gp-label-sub">Premium Golf Network</span>
             </div>
-
-            <div className="feature reverse">
-              <div className="visual reveal" data-delay="0">
-                <div
-                  className="bg"
-                  style={{
-                    backgroundImage: `url(${authImage})`,
-                  }}
-                />
-                <div className="overlay" />
-                <div className="caption">
-                  <p className="cap-kicker">NEXUS</p>
-                  <p className="cap-title">연결된 전문성으로 검증을 지원</p>
-                </div>
-              </div>
-
-              <div className="copy">
-                <p className="k reveal" data-delay="1">
-                  Authentication
-                </p>
-                <h3 className="reveal" data-delay="2">
-                  검증은 ‘연결’로 이루어져야 합니다.
-                </h3>
-                <p className="reveal" data-delay="3">
-                  {`공신력 있는 감정기관·전문가 연계, 소장 작품 자료 정리,
-감정 결과 기록 및 이력 관리를 지원합니다.`}
-                </p>
-                <ul className="bullets reveal" data-delay="4">
-                  <li>외부 감정기관/전문가 연계</li>
-                  <li>자료 정리 및 기록</li>
-                  <li>이력 관리</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="auction" className="block">
-          <div className="container">
-            <div className="blockhead">
-              <h2 className="reveal" data-delay="0">
-                Private Auction
-              </h2>
-              <p className="subnote reveal" data-delay="1">
-                Auction &amp; Trade
-              </p>
-            </div>
-
-            <div className="feature">
-              <div className="visual reveal" data-delay="0">
-                <div
-                  className="bg"
-                  style={{
-                    backgroundImage: `url(${auctionImage})`,
-                  }}
-                />
-                <div className="overlay" />
-                <div className="caption">
-                  <p className="cap-kicker">PRIVATE</p>
-                  <p className="cap-title">공개 시장이 아닌, 승인된 시장</p>
-                </div>
-              </div>
-
-              <div className="copy">
-                <p className="k reveal" data-delay="1">
-                  Private Auction
-                </p>
-                <h3 className="reveal" data-delay="2">
-                  네트워크가 자산이 되는 구조.
-                </h3>
-                <p className="reveal" data-delay="3">
-                  {`승인된 회원만 참여, 제한된 참여자 구조, 거래 이력 관리.
-신뢰 기반 중개 환경을 전제로 합니다.`}
-                </p>
-                <ul className="bullets reveal" data-delay="4">
-                  <li>Approved members only</li>
-                  <li>Limited participation</li>
-                  <li>Trade history &amp; records</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="corporate" className="block">
-          <div className="container">
-            <div className="blockhead">
-              <h2 className="reveal" data-delay="0">
-                For Corporate Leaders
-              </h2>
-              <p className="subnote reveal" data-delay="1">
-                Corporate Art Solution
-              </p>
-            </div>
-
-            <div className="feature reverse">
-              <div className="visual reveal" data-delay="0">
-                <div
-                  className="bg"
-                  style={{
-                    backgroundImage: `url(${authImage})`,
-                  }}
-                />
-                <div className="overlay" />
-                <div className="caption">
-                  <p className="cap-kicker">CORPORATE</p>
-                  <p className="cap-title">계약 · 증빙 · 기록 중심 운영</p>
-                </div>
-              </div>
-
-              <div className="copy">
-                <p className="k reveal" data-delay="1">
-                  For Corporate
-                </p>
-                <h3 className="reveal" data-delay="2">
-                  취향은 판단이 됩니다.
-                </h3>
-                <p className="reveal" data-delay="3">
-                  {`법인 명의 미술품 구매·렌탈·구독,
-계약·증빙·기록 중심 운영을 지원합니다.`}
-                </p>
-                <ul className="bullets reveal" data-delay="4">
-                  <li>법인 명의 구매·렌탈·구독</li>
-                  <li>Documentation &amp; records</li>
-                  <li>전문가 자문 기반 운영</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="golf" className="block">
-          <div className="container">
-            <div className="blockhead">
-              <h2 className="reveal" data-delay="0">
-                Golf · Member Benefit
-              </h2>
-              <p className="subnote reveal" data-delay="1">
-                Golf Service
-              </p>
-            </div>
-
-            <div className="feature">
-              <div className="visual reveal" data-delay="0">
-                <div
-                  className="bg"
-                  style={{
-                    backgroundImage: `url(${golfImage})`,
-                  }}
-                />
-                <div className="overlay" />
-                <div className="caption">
-                  <p className="cap-kicker">GOLF</p>
-                  <p className="cap-title">유명 골프장을 만나보세요</p>
-                </div>
-              </div>
-
-              <div className="copy">
-                <p className="k reveal" data-delay="1">
-                  Member Benefit
-                </p>
-                <h3 className="reveal" data-delay="2">
-                  골프는 목적이 아니라, 연결입니다.
-                </h3>
-                <p className="reveal" data-delay="3">
-                  {`미술 서비스 이용 회원을 위한 교류 서비스 중 하나입니다.
-명문 골프장 예약 지원, 회원 대회, 해외 투어를 제공합니다.`}
-                </p>
-                <ul className="bullets reveal" data-delay="4">
-                  <li>명문 골프장 예약 지원</li>
-                  <li>월·분기별 회원 대회</li>
-                  <li>해외 골프 투어</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="culture" className="block">
-          <div className="container">
-            <div className="blockhead">
-              <h2 className="reveal" data-delay="0">
-                Culture &amp; Experience
-              </h2>
-              <p className="subnote reveal" data-delay="1">
-                Beyond Ownership
-              </p>
-            </div>
-
-            <div className="feature reverse">
-              <div className="visual reveal" data-delay="0">
-                <div
-                  className="bg"
-                  style={{
-                    backgroundImage: `url(${cultureImage})`,
-                  }}
-                />
-                <div className="overlay" />
-                <div className="caption">
-                  <p className="cap-kicker">DINING</p>
-                  <p className="cap-title">소유 이후의 경험</p>
-                </div>
-              </div>
-
-              <div className="copy">
-                <p className="k reveal" data-delay="1">
-                  Culture
-                </p>
-                <h3 className="reveal" data-delay="2">
-                  품격은 ‘실천’으로 완성됩니다.
-                </h3>
-                <p className="reveal" data-delay="3">
-                  {`소규모 프라이빗 전시, 와인 & 다이닝 모임,
-해외 미술관·박물관 투어, 오블리주 프로그램을 운영합니다.`}
-                </p>
-                <ul className="bullets reveal" data-delay="4">
-                  <li>프라이빗 전시</li>
-                  <li>와인 &amp; 다이닝</li>
-                  <li>해외 투어</li>
-                  <li>오블리주 프로그램</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="lounge" className="block">
-          <div className="container">
-            <div className="blockhead">
-              <h2 className="reveal" data-delay="0">
-                Member Lounge
-              </h2>
-              <p className="subnote reveal" data-delay="1">
-                Members Only
-              </p>
-            </div>
-
-            <div className="feature">
-              <div className="visual reveal" data-delay="0">
-                <div
-                  className="bg"
-                  style={{
-                    backgroundImage: `url(${aboutImage})`,
-                  }}
-                />
-                <div className="overlay" />
-                <div className="caption">
-                  <p className="cap-kicker">TRUST</p>
-                  <p className="cap-title">정보는, 신뢰 위에서만 흐릅니다</p>
-                </div>
-              </div>
-
-              <div className="copy">
-                <p className="k reveal" data-delay="1">
-                  Members
-                </p>
-                <h3 className="reveal" data-delay="2">
-                  폐쇄형 구조에서만 공유됩니다.
-                </h3>
-                <p className="reveal" data-delay="3">
-                  {`멤버 간 정보 공유 영역(네트워크/컬렉션/거래 이력)으로 확장됩니다.`}
-                </p>
-                <ul className="bullets reveal" data-delay="4">
-                  <li>My Collection</li>
-                  <li>Member Network</li>
-                  <li>Trade History</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="collection" className="block">
-          <div className="container">
-            <div className="blockhead">
-              <h2 className="reveal" data-delay="0">
-                My Collection (등록·관리)
-              </h2>
-              <p className="subnote reveal" data-delay="1">
-                Collection
-              </p>
-            </div>
-
-            <div className="feature reverse">
-              <div className="visual reveal" data-delay="0">
-                <div
-                  className="bg"
-                  style={{
-                    backgroundImage: `url(${galleryImage})`,
-                  }}
-                />
-                <div className="overlay" />
-                <div className="caption">
-                  <p className="cap-kicker">ARCHIVE</p>
-                  <p className="cap-title">작품 이력과 소장 기록을 관리</p>
-                </div>
-              </div>
-
-              <div className="copy">
-                <p className="k reveal" data-delay="1">
-                  My Collection
-                </p>
-                <h3 className="reveal" data-delay="2">
-                  소장 이력을 체계적으로 정리합니다.
-                </h3>
-                <p className="reveal" data-delay="3">
-                  {`보유 작품 등록, 관리, 감정 이력 기록까지 한 곳에서 제공합니다.
-개인과 법인의 아카이브를 안전하게 유지합니다.`}
-                </p>
-                <ul className="bullets reveal" data-delay="4">
-                  <li>작품 등록 및 수정</li>
-                  <li>감정/거래 이력 관리</li>
-                  <li>렌탈·구독 상태 확인</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <section id="contact" className="block">
-        <div className="container">
-          <div className="blockhead">
-            <h2 className="reveal" data-delay="0">
-              Contact
+            <h2 className="gp-title">
+              회원을 위해 제공되는<br />
+              선택적 혜택이 아닌,<br />
+              구조화된 프리미엄 경험.
             </h2>
-            <p className="subnote reveal" data-delay="1">
-              Inquiry
+            <p className="gp-body">
+              골프는 옵션이 아니라, 관계를 완성하는 연결고리입니다.
             </p>
+            <div className="gp-list">
+              <p>국내 명문 골프장 정기예약 서비스</p>
+              <p>프라이빗 골프대회 초청</p>
+              <p>해외투어 프로그램</p>
+            </div>
+            <NetworkToggle />
           </div>
 
-          <div className="feature">
-            <div className="visual reveal" data-delay="0">
-              <div
-                className="bg"
-                style={{
-                  backgroundImage: `url(${authImage})`,
-                }}
-              />
-              <div className="overlay" />
-              <div className="caption">
-                <p className="cap-kicker">INQUIRY</p>
-                <p className="cap-title">멤버십 가입 및 서비스 문의</p>
+          {/* 오른쪽 혜택 박스 */}
+          <div className="gp-benefits-panel">
+            <div className="gp-benefits">
+              <h3 className="gp-benefits-title">회원 혜택 안내</h3>
+
+              <div className="gp-benefit-item">
+                <h4>정기예약 대상</h4>
+                <p>미술품 구매 또는 렌탈 가입 정규회원 대상</p>
+                <ul>
+                  <li>작품가 1억 이하: 월 1회</li>
+                  <li>작품가 1억~3억: 월 2회</li>
+                  <li>작품가 3억 이상: 월 3회 (주말 1회 포함)</li>
+                  <li>작품가 10억 이상: 무제한 (주말 2회)</li>
+                </ul>
+              </div>
+
+              <div className="gp-benefit-item">
+                <h4>골프장 단체예약 서비스</h4>
+                <p>1억 이상 구매/렌탈 정규회원의 연 부킹, 골프 행사 등 진행 (연회비)</p>
+              </div>
+
+              <div className="gp-benefit-item">
+                <h4>월별 예약 가능 골프장 리스트</h4>
+                <p>국내 수도권 명문 골프장</p>
+              </div>
+
+              <div className="gp-benefit-item">
+                <h4>프라이빗 대회 일정</h4>
+                <p>분기별 대회이며 회원과 회원 추천자만 참가 가능</p>
+              </div>
+
+              <div className="gp-benefit-item">
+                <h4>해외 골프 프로그램 상세 일정</h4>
+                <p>일본, 중국, 동남아, 미국 해외 골프 투어 및 프로 동반 아카데미</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="advisory" className="block guest-only ad-section">
+          {/* 배경: 갤러리 사진 */}
+          <div className="ad-bg" style={{ backgroundImage: `url(${advisoryImg})` }} />
+          {/* 오버레이: 왼쪽 투명 → 오른쪽 흰색 (ABOUT/GOLF와 동일 방향) */}
+          <div className="ad-overlay" />
+          {/* 오른쪽 텍스트 영역 */}
+          <div className="ad-content">
+            <div className="ad-label-row">
+              <span className="ad-label-main">ADVISORY</span>
+              <span className="ad-label-sub">ART ASSET ADVISORY</span>
+            </div>
+            <h2 className="ad-title">
+              감각이 아닌,<br />근거로 자산을 판단합니다.
+            </h2>
+            <p className="ad-body">
+              아트N골프는 법무·회계·세무·감정 전문가와 함께<br />
+              미술 자산의 구조를 설계합니다.
+            </p>
+            <div className="ad-list">
+              <p>법인 재무 구조에 맞춘 아트 렌탈 가능성 검토</p>
+              <p>소장 작품 진품 감정 및 연대 분석</p>
+              <p>보험가·시장가·보관 상태 종합 평가까지</p>
+            </div>
+            <p className="ad-footer">모든 판단은 전문가의 근거 위에서 이루어집니다.</p>
+            <NoblesseToggle />
+          </div>
+        </section>
+
+        <section id="contact" className="block guest-only ct-section">
+          {/* 배경: 문화/와인 사진 */}
+          <div className="ct-bg" style={{ backgroundImage: `url(${contactImg})` }} />
+          {/* 오버레이: 왼쪽 투명 → 오른쪽 흰색 (ABOUT/GOLF/ADVISORY와 동일 방향) */}
+          <div className="ct-overlay" />
+          {/* 오른쪽 텍스트 영역 */}
+          <div className="ct-content">
+            <div className="ct-label-row">
+              <span className="ct-label-main">CONTACT</span>
+              <span className="ct-label-sub">PRIVATE ACCESS</span>
+            </div>
+            <h2 className="ct-title">
+              모든 이에게<br />열려 있지 않습니다.
+            </h2>
+            <p className="ct-body">
+              아트N골프는<br />소수만을 위한 구조를 지향합니다.
+            </p>
+            <p className="ct-body">
+              입장은 상담이 아니라 선별 과정입니다.<br />
+              구조 자체가 이미 하나의 가치입니다.
+            </p>
+            <AndToggle />
+          </div>
+          {/* 오른쪽 컨택트 패널 */}
+          <div className="ct-panel">
+            <div className="ct-panel-inner">
+              <p className="ct-panel-title">Private Access</p>
+              <p className="ct-panel-desc">선별 과정을 통한 입장</p>
+              <div className="ct-panel-info">
+                <p>이메일: contact@artngolf.com</p>
+                <p>문의: 02-1234-5678</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      {/* ===== Member 섹션 (회원 전용) ===== */}
+        <section id="golf-privilege-detail" className="block member-only">
+          <div className="container">
+            <div className="blockhead">
+              <h2 className="reveal" data-delay="0">
+                GOLF PRIVILEGE
+              </h2>
+              <p className="subnote reveal" data-delay="1">
+                골프 혜택 — 상세
+              </p>
+            </div>
+
+            <div className="feature">
+              <div className="visual visual-empty reveal" data-delay="0">
+                <div className="caption">
+                  <p className="cap-kicker">GOLF PRIVILEGE</p>
+                  <p className="cap-title">등급별 혜택 · 골프장 리스트 · 대회 일정</p>
+                </div>
+              </div>
+
+              <div className="copy">
+                <p className="k reveal" data-delay="1">
+                  Golf Privilege — Detail
+                </p>
+                <h3 className="reveal" data-delay="2">
+                  등급과 혜택의 구조를 확인합니다.
+                </h3>
+                <p className="reveal" data-delay="3">
+                  {`회원 등급별 예약 혜택, 골프장 리스트,\n대회 일정까지 상세 정보를 제공합니다.`}
+                </p>
+                <ul className="bullets reveal" data-delay="4">
+                  <li>회원 등급별 예약 혜택</li>
+                  <li>골프장 리스트</li>
+                  <li>대회 일정 및 참가 안내</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="advisory-detail" className="block member-only">
+          <div className="container">
+            <div className="blockhead">
+              <h2 className="reveal" data-delay="0">
+                ART ASSET ADVISORY
+              </h2>
+              <p className="subnote reveal" data-delay="1">
+                전문가 자문 — 상세
+              </p>
+            </div>
+
+            <div className="feature reverse">
+              <div className="advisory-text reveal" data-delay="0">
+                <p className="advisory-tag">ADVISORY</p>
+                <p className="advisory-caption">GOLF PRIVILEGE 옆 카테고리</p>
+              </div>
+
+              <div className="copy">
+                <p className="k reveal" data-delay="1">
+                  ART ASSET ADVISORY
+                </p>
+                <h3 className="reveal" data-delay="2">
+                  감각이 아닌, 근거로 자산을 판단합니다.
+                </h3>
+                <p className="reveal" data-delay="3">
+                  {`아트N골프는 법무·회계·세무·감정 전문가와 함께\n미술 자산의 구조를 설계합니다.`}
+                </p>
+                <ul className="bullets reveal" data-delay="4">
+                  <li>법인 재무 구조에 맞춘 아트 렌탈 가능성 검토</li>
+                  <li>소장 작품 진품 감정 및 연대 분석</li>
+                  <li>보험가·시장가·보관 상태 종합 평가</li>
+                </ul>
+                <p className="reveal" data-delay="4">
+                  모든 판단은 전문가의 근거 위에서 이루어집니다.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="private-n" className="block member-only">
+          <div className="container">
+            <div className="blockhead">
+              <h2 className="reveal" data-delay="0">
+                PRIVATE N
+              </h2>
+              <p className="subnote reveal" data-delay="1">
+                회원 전용 영역
+              </p>
+            </div>
+
+            <div className="private-n-grid reveal" data-delay="0">
+              <div className="private-n-card">
+                <p className="private-n-tag">GOLF</p>
+                <h4 className="private-n-title">골프장 정보</h4>
+                <p className="private-n-desc">
+                  회원 전용 골프장 정보와 예약 서비스에 접근합니다.
+                </p>
+              </div>
+              <div className="private-n-card">
+                <p className="private-n-tag">SHOP</p>
+                <h4 className="private-n-title">ANG SHOP</h4>
+                <p className="private-n-desc">
+                  회원 전용 상품과 서비스를 탐색합니다.
+                </p>
+              </div>
+              <div className="private-n-card">
+                <p className="private-n-tag">NETWORK</p>
+                <h4 className="private-n-title">NEXUS</h4>
+                <p className="private-n-desc">
+                  회원 간 네트워킹과 커뮤니티 공간입니다.
+                </p>
               </div>
             </div>
 
-            <div className="copy">
-              <p className="k reveal" data-delay="1">
-                Contact
+            <div className="guest-note reveal" data-delay="2">
+              <p className="guest-note-label">GUEST 준회원</p>
+              <p className="guest-note-text">
+                유료 커뮤니티 참가를 통한 준회원 혜택 안내가 제공됩니다.
               </p>
-              <h3 className="reveal" data-delay="2">
-                문의 후, 승인을 통해 시작됩니다.
-              </h3>
-              <p className="reveal" data-delay="3">
-                {`멤버십 가입 및 서비스 이용을 위해서는 회원 가입 및 승인이 필요합니다.
-문의 남겨주시면 안내드리겠습니다.`}
-              </p>
-              <ul className="bullets reveal" data-delay="4">
-                <li>이메일: contact@artngolf.example</li>
-                <li>상담: 상단 ‘멤버십 문의’ 버튼</li>
-              </ul>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+
     </>
   );
 };
