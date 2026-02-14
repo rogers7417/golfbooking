@@ -52,13 +52,13 @@ const ArtSlider: React.FC = () => {
   );
 };
 
-/* ─── 전시 공간 입장 버튼 ─── */
+/* ─── NEXUS 버튼 ─── */
 const ExhibitionEntry: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="aa-exhibition">
       <Link to="/exhibition" className="aa-exhibition-btn">
-        전시 공간 입장
+        NEXUS
       </Link>
       {open && (
         <div className="aa-exhibition-modal">
@@ -87,8 +87,8 @@ const ExhibitionEntry: React.FC = () => {
             <div className="aa-exhibition-auth">
               <p className="aa-exhibition-auth-text">상세 내용을 확인하시려면 회원 가입이 필요합니다.</p>
               <div className="aa-exhibition-auth-buttons">
-                <Link to="/exhibition" className="aa-exhibition-auth-btn primary">전시 공간 입장</Link>
-                <Link to="/exhibition" className="aa-exhibition-auth-btn secondary">전시 공간 입장</Link>
+                <Link to="/exhibition" className="aa-exhibition-auth-btn primary">NEXUS</Link>
+                <Link to="/exhibition" className="aa-exhibition-auth-btn secondary">NEXUS</Link>
               </div>
             </div>
           </div>
@@ -102,25 +102,60 @@ const ExhibitionEntry: React.FC = () => {
 const NetworkToggle: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="gp-network">
-      <button type="button" className="gp-network-btn" onClick={() => setOpen((v) => !v)}>
-        <span className="gp-network-label">NETWORK</span>
-        <span className={`gp-network-arrow${open ? " open" : ""}`}>›</span>
-      </button>
+    <>
+      <div className="gp-network">
+        <button type="button" className="gp-network-btn" onClick={() => setOpen(true)}>
+          <span className="gp-network-label">NETWORK</span>
+          <span className="gp-network-arrow">›</span>
+        </button>
+      </div>
+
       {open && (
-        <div className="gp-network-body">
-          <p>
-            프라이빗 골프 네트워크로 연결되는 관계의 구조입니다.
-          </p>
-          <ul>
-            <li>회원 등급별 단계적 접근 혜택</li>
-            <li>국내·해외 명문 골프장 예약 우선권</li>
-            <li>프라이빗 대회 및 이벤트 초청</li>
-            <li>해외투어 큐레이팅 및 수행 서비스</li>
-          </ul>
+        <div className="network-modal-backdrop" onClick={() => setOpen(false)}>
+          <div className="network-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="network-modal-close" onClick={() => setOpen(false)}>×</button>
+            <h3 className="network-modal-title">회원 혜택 안내</h3>
+
+            <div className="network-modal-section">
+              <h4 className="network-modal-subtitle">정기예약 대상</h4>
+              <p className="network-modal-desc">미술품 구매 또는 렌탈 가입 정규회원 대상</p>
+              <ul className="network-modal-list">
+                <li>작품가 1억 이하: 월 1회</li>
+                <li>작품가 1억~3억: 월 2회</li>
+                <li>작품가 3억 이상: 월 3회 (주말 1회 포함)</li>
+                <li>작품가 10억 이상: 무제한 (주말 2회)</li>
+              </ul>
+            </div>
+
+            <div className="network-modal-section">
+              <h4 className="network-modal-subtitle">골프장 단체예약 서비스</h4>
+              <p className="network-modal-desc">1억 이상 구매/렌탈 정규회원의 연 부킹, 골프 행사 등 진행 (연회비)</p>
+            </div>
+
+            <div className="network-modal-section">
+              <h4 className="network-modal-subtitle">월별 예약 가능 골프장 리스트</h4>
+              <p className="network-modal-desc">국내 수도권 명문 골프장</p>
+            </div>
+
+            <div className="network-modal-section">
+              <h4 className="network-modal-subtitle">프라이빗 대회 일정</h4>
+              <p className="network-modal-desc">분기별 대회이며 회원과 회원 추천자만 참가 가능</p>
+            </div>
+
+            <div className="network-modal-section">
+              <h4 className="network-modal-subtitle">해외 골프 프로그램 상세 일정</h4>
+              <p className="network-modal-desc">일본, 중국, 동남아, 미국 해외 골프 투어 및 프로 동반 아카데미</p>
+            </div>
+
+            <div className="network-modal-footer">
+              <Link to="/exhibition" className="network-modal-nexus-btn">
+                NEXUS
+              </Link>
+            </div>
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
@@ -249,44 +284,6 @@ const HomePage: React.FC = () => {
               <p>해외투어 프로그램</p>
             </div>
             <NetworkToggle />
-          </div>
-
-          {/* 오른쪽 혜택 박스 */}
-          <div className="gp-benefits-panel">
-            <div className="gp-benefits">
-              <h3 className="gp-benefits-title">회원 혜택 안내</h3>
-
-              <div className="gp-benefit-item">
-                <h4>정기예약 대상</h4>
-                <p>미술품 구매 또는 렌탈 가입 정규회원 대상</p>
-                <ul>
-                  <li>작품가 1억 이하: 월 1회</li>
-                  <li>작품가 1억~3억: 월 2회</li>
-                  <li>작품가 3억 이상: 월 3회 (주말 1회 포함)</li>
-                  <li>작품가 10억 이상: 무제한 (주말 2회)</li>
-                </ul>
-              </div>
-
-              <div className="gp-benefit-item">
-                <h4>골프장 단체예약 서비스</h4>
-                <p>1억 이상 구매/렌탈 정규회원의 연 부킹, 골프 행사 등 진행 (연회비)</p>
-              </div>
-
-              <div className="gp-benefit-item">
-                <h4>월별 예약 가능 골프장 리스트</h4>
-                <p>국내 수도권 명문 골프장</p>
-              </div>
-
-              <div className="gp-benefit-item">
-                <h4>프라이빗 대회 일정</h4>
-                <p>분기별 대회이며 회원과 회원 추천자만 참가 가능</p>
-              </div>
-
-              <div className="gp-benefit-item">
-                <h4>해외 골프 프로그램 상세 일정</h4>
-                <p>일본, 중국, 동남아, 미국 해외 골프 투어 및 프로 동반 아카데미</p>
-              </div>
-            </div>
           </div>
         </section>
 
