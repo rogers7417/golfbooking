@@ -14,6 +14,8 @@ const App: React.FC = () => {
     "idle"
   );
   const [loginMessage, setLoginMessage] = useState("");
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [signupStatus, setSignupStatus] = useState<"idle" | "success">("idle");
   const location = useLocation();
 
   // 페이지 전환 시 스크롤을 맨 위로
@@ -27,7 +29,7 @@ const App: React.FC = () => {
       { href: "/#art-asset", label: "ART ASSET" },
       { href: "/#golf-privilege", label: "GOLF PRIVILEGE" },
       { href: "/#advisory", label: "ADVISORY" },
-      { href: "/private-n", label: "PRIVATE N" },
+      { href: "/#private-n-teaser", label: "PRIVATE N" },
       { href: "/#contact", label: "CONTACT" },
     ],
     []
@@ -39,7 +41,7 @@ const App: React.FC = () => {
       { href: "/#art-asset-detail", label: "ART ASSET" },
       { href: "/#golf-privilege-detail", label: "GOLF PRIVILEGE" },
       { href: "/#advisory-detail", label: "ADVISORY" },
-      { href: "/private-n", label: "PRIVATE N" },
+      { href: "/#private-n-teaser", label: "PRIVATE N" },
     ],
     []
   );
@@ -67,6 +69,37 @@ const App: React.FC = () => {
     sections.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, [role, location.key]);
+
+  // 메인페이지: 마지막 섹션에 도달하면 푸터 표시
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+
+    const appRoot = document.querySelector(".app-root");
+    if (!appRoot) return;
+
+    const showFooter = () => {
+      const footer = document.querySelector("footer");
+      if (!footer) return;
+      const sections = document.querySelectorAll<HTMLElement>("section.block");
+      const visibleSections = Array.from(sections).filter(
+        (s) => getComputedStyle(s).display !== "none"
+      );
+      const lastSection = visibleSections[visibleSections.length - 1];
+      if (!lastSection) return;
+
+      const rect = lastSection.getBoundingClientRect();
+      // 마지막 섹션이 뷰포트에 대부분 보이면 푸터 표시
+      if (rect.top < window.innerHeight * 0.5 && rect.bottom > 0) {
+        footer.classList.add("is-visible");
+      } else {
+        footer.classList.remove("is-visible");
+      }
+    };
+
+    appRoot.addEventListener("scroll", showFooter, { passive: true });
+    showFooter();
+    return () => appRoot.removeEventListener("scroll", showFooter);
+  }, [location.pathname, role]);
 
   useEffect(() => {
     const targets = Array.from(
@@ -125,20 +158,12 @@ const App: React.FC = () => {
         <div className="topbar">
           <div className="container">
             <div className="nav">
-              {/* PRIVATE N Button - Far Left */}
-              <button
-                className="private-n-menu-btn"
-                onClick={() => window.location.href = "/private-n"}
-              >
-                PRIVATE N
-              </button>
-
               <div className="brand" onClick={() => window.location.href = "/"} style={{ cursor: "pointer" }}>
                 <img src={logoText} alt="ART N GOLF" className="brand-logo" />
               </div>
 
               <nav className="menu" aria-label="Primary">
-                {guestMenu.filter(item => item.href !== '/private-n').map((item) => {
+                {guestMenu.map((item) => {
                   const id = item.href.replace("/#", "");
                   const isRoute = item.href.startsWith("/");
                   return (
@@ -159,7 +184,7 @@ const App: React.FC = () => {
                     </button>
                   );
                 })}
-                {memberMenu.filter(item => item.href !== '/private-n').map((item) => {
+                {memberMenu.map((item) => {
                   const id = item.href.replace("/#", "");
                   const isRoute = item.href.startsWith("/");
                   return (
@@ -184,22 +209,17 @@ const App: React.FC = () => {
 
               <div className="cta">
                 {role === "guest" ? (
-                  <>
-                    <button
-                      className="btn"
-                      type="button"
-                      onClick={() => {
-                        setIsLoginOpen(true);
-                        setLoginStatus("idle");
-                        setLoginMessage("");
-                      }}
-                    >
-                      로그인
-                    </button>
-                    <button className="btn primary" type="button">
-                      멤버십 문의
-                    </button>
-                  </>
+                  <button
+                    className="btn"
+                    type="button"
+                    onClick={() => {
+                      setIsLoginOpen(true);
+                      setLoginStatus("idle");
+                      setLoginMessage("");
+                    }}
+                  >
+                    로그인
+                  </button>
                 ) : null}
               </div>
             </div>
@@ -259,18 +279,122 @@ const App: React.FC = () => {
         </div>
       ) : null}
 
+      {/* Quick Inquiry Button */}
+      <button
+        className="quick-inquiry-btn"
+        type="button"
+        aria-label="회원 신청"
+        onClick={() => {
+          setIsSignupOpen(true);
+          setSignupStatus("idle");
+        }}
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <span className="quick-inquiry-label">NOW</span>
+      </button>
+
+      {/* Signup Modal */}
+      {isSignupOpen ? (
+        <div className="modal-backdrop" role="presentation">
+          <div className="modal" role="dialog" aria-modal="true">
+            <div className="modal-header">
+              <h2>회원 신청</h2>
+              <button
+                className="modal-close"
+                type="button"
+                aria-label="닫기"
+                onClick={() => setIsSignupOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            {signupStatus === "idle" ? (
+              <form
+                className="modal-body"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setSignupStatus("success");
+                  window.setTimeout(() => {
+                    setIsSignupOpen(false);
+                    setSignupStatus("idle");
+                  }, 2000);
+                }}
+              >
+                <label>
+                  이름
+                  <input type="text" name="name" required placeholder="홍길동" />
+                </label>
+                <label>
+                  연락처
+                  <input type="tel" name="phone" required placeholder="010-0000-0000" />
+                </label>
+                <label>
+                  이메일
+                  <input type="email" name="email" required placeholder="example@email.com" />
+                </label>
+                <div className="modal-actions">
+                  <button
+                    className="btn"
+                    type="button"
+                    onClick={() => setIsSignupOpen(false)}
+                  >
+                    취소
+                  </button>
+                  <button className="btn primary" type="submit">
+                    신청하기
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="modal-body">
+                <p className="modal-message success">
+                  회원 신청이 완료되었습니다. 감사합니다.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : null}
+
       <footer>
         <div className="container">
           <div className="footline">
-            <p className="footer-slogan reveal" data-delay="0">
-              ART N GOLF — The Nexus of Art, Golf, and Now.
-            </p>
-            <p className="footer-desc reveal" data-delay="1">
-              {`artngolf는
+            <div className="footer-cols">
+              <div className="footer-left reveal" data-delay="0">
+                <p className="footer-slogan">
+                  ART N GOLF — The Nexus of Art, Golf, and Now.
+                </p>
+                <p className="footer-desc">
+                  {`artngolf는
 미술과 골프를 연결하고,
 사람과 사람을 연결하며,
 지금의 기준으로 품격을 정의합니다.`}
-            </p>
+                </p>
+              </div>
+
+              <div className="footer-right reveal" data-delay="1">
+                <div className="footer-biz-row">
+                  <span>상호명: 아트앤골프</span>
+                  <span className="footer-biz-sep" />
+                  <span>대표: 홍길동</span>
+                </div>
+                <div className="footer-biz-row">
+                  <span>사업자등록번호: 000-00-00000</span>
+                </div>
+                <div className="footer-biz-row">
+                  <span>서울특별시 강남구 테헤란로 00길 00, 0층</span>
+                </div>
+                <div className="footer-biz-row">
+                  <span>TEL: 02-0000-0000</span>
+                </div>
+                <div className="footer-biz-row">
+                  <span>E-MAIL: info@artngolf.com</span>
+                </div>
+              </div>
+            </div>
+
             <div className="small reveal" data-delay="2">
               © ART N GOLF. All rights reserved.
             </div>

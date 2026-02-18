@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-type MainCategory = "golf" | "shop" | "members";
+type MainCategory = "golf" | "shop" | "members" | "guest";
 type GolfSubCategory = "all" | "seoul" | "gyeonggi" | "gangwon" | "premium";
 type ShopSubCategory = "all" | "bags" | "clubs" | "wear" | "accessories";
 type MembersSubCategory = "all" | "notice" | "review" | "event";
@@ -26,7 +26,6 @@ const PrivateNPage: React.FC = () => {
           <h1 className="pn-header-logo">PRIVATE N</h1>
           <div className="pn-header-actions">
             <button className="pn-header-btn">로그인</button>
-            <button className="pn-header-btn primary">멤버십</button>
           </div>
         </div>
       </header>
@@ -50,22 +49,25 @@ const PrivateNPage: React.FC = () => {
               className={`pn-main-tab ${mainCategory === "golf" ? "active" : ""}`}
               onClick={() => setMainCategory("golf")}
             >
-              <span className="pn-main-tab-title">골프장 (CC)</span>
-              <span className="pn-main-tab-desc">국내 명문 골프장</span>
+              C.C / G.C
             </button>
             <button
               className={`pn-main-tab ${mainCategory === "shop" ? "active" : ""}`}
               onClick={() => setMainCategory("shop")}
             >
-              <span className="pn-main-tab-title">ANG SHOP</span>
-              <span className="pn-main-tab-desc">골프 용품 & 액세서리</span>
+              ANG SHOP
             </button>
             <button
               className={`pn-main-tab ${mainCategory === "members" ? "active" : ""}`}
               onClick={() => setMainCategory("members")}
             >
-              <span className="pn-main-tab-title">MEMBERS</span>
-              <span className="pn-main-tab-desc">공지사항 & 후기</span>
+              MEMBERS
+            </button>
+            <button
+              className={`pn-main-tab ${mainCategory === "guest" ? "active" : ""}`}
+              onClick={() => setMainCategory("guest")}
+            >
+              GUEST
             </button>
           </div>
         </div>
@@ -273,6 +275,13 @@ const PrivateNPage: React.FC = () => {
                   ))}
                 </>
               ) : null}
+            </div>
+          )}
+
+          {/* Guest Area */}
+          {mainCategory === "guest" && (
+            <div className="pn-guest-area">
+              <p className="pn-guest-text">일정 보기</p>
             </div>
           )}
         </div>

@@ -4,6 +4,7 @@ import aboutImg from "../assets/products/about-bg.png";
 import golfImg from "../assets/images/golf-8454586.jpg";
 import advisoryImg from "../assets/images/gallery-16037759.jpg";
 import contactImg from "../assets/images/culture-33144646.jpg";
+import privateNImg from "../assets/images/hero-12705470.jpg";
 
 import slide01 from "../assets/products/slide-01.jpg";
 import slide02 from "../assets/products/slide-02.jpg";
@@ -312,6 +313,31 @@ const HomePage: React.FC = () => {
             </div>
             <p className="ad-footer">모든 판단은 전문가의 근거 위에서 이루어집니다.</p>
             <NoblesseToggle />
+          </div>
+        </section>
+
+        <section id="private-n-teaser" className="block guest-only pnt-section">
+          <div className="pnt-bg" style={{ backgroundImage: `url(${privateNImg})` }} />
+          <div className="pnt-overlay" />
+          <div className="pnt-content">
+            <div className="pnt-label-row">
+              <span className="pnt-label-main">PRIVATE N</span>
+              <span className="pnt-label-sub">EXCLUSIVE LOUNGE</span>
+            </div>
+            <h2 className="pnt-title">
+              소수의 멤버를 위한<br />아트N골프의 프리미엄 라운지
+            </h2>
+            <p className="pnt-body">
+              예술과 골프를 함께 향유하는 고객만을 위해<br />
+              특별히 설계된 멤버십 전용 서비스입니다.
+            </p>
+            <button
+              className="pnt-btn"
+              type="button"
+              onClick={() => window.location.href = "/private-n"}
+            >
+              N 입장하기
+            </button>
           </div>
         </section>
 
