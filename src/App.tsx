@@ -283,7 +283,7 @@ const App: React.FC = () => {
       <button
         className="quick-inquiry-btn"
         type="button"
-        aria-label="회원 신청"
+        aria-label="알아보기"
         onClick={() => {
           setIsSignupOpen(true);
           setSignupStatus("idle");
@@ -300,7 +300,7 @@ const App: React.FC = () => {
         <div className="modal-backdrop" role="presentation">
           <div className="modal" role="dialog" aria-modal="true">
             <div className="modal-header">
-              <h2>회원 신청</h2>
+              <h2>알아보기</h2>
               <button
                 className="modal-close"
                 type="button"
@@ -323,16 +323,20 @@ const App: React.FC = () => {
                 }}
               >
                 <label>
-                  이름
+                  NAME
                   <input type="text" name="name" required placeholder="홍길동" />
                 </label>
                 <label>
-                  연락처
+                  PHONE
                   <input type="tel" name="phone" required placeholder="010-0000-0000" />
                 </label>
                 <label>
-                  이메일
+                  E-Mail
                   <input type="email" name="email" required placeholder="example@email.com" />
+                </label>
+                <label>
+                  Message
+                  <textarea name="message" rows={3} placeholder="문의 내용을 입력해주세요" />
                 </label>
                 <div className="modal-actions">
                   <button
@@ -350,7 +354,7 @@ const App: React.FC = () => {
             ) : (
               <div className="modal-body">
                 <p className="modal-message success">
-                  회원 신청이 완료되었습니다. 감사합니다.
+                  신청이 완료되었습니다. 감사합니다.
                 </p>
               </div>
             )}

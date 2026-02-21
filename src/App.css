@@ -185,18 +185,32 @@ body[data-role="member"] .menu button[data-role="member"] {
 .btn {
   border: 1px solid var(--line);
   background: #fff;
-  padding: 9px 12px;
+  padding: 9px 16px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.btn:hover {
+  border-color: #bbb;
+  background: #f5f5f5;
 }
 
 .btn.primary {
-  border-color: rgba(176, 144, 96, 0.45);
-  background: rgba(176, 144, 96, 0.1);
-  color: var(--brand-ink);
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+  font-weight: 600;
+}
+
+.btn.primary:hover {
+  background: #9f8060;
+  border-color: #9f8060;
 }
 
 /* ===== Login Modal ===== */
@@ -1260,12 +1274,13 @@ section.block.gp-section {
 .gp-content {
   position: relative;
   z-index: 2;
-  width: 45%;
+  width: 50%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 100px 32px 72px 8%;
+  padding: 100px 32px 72px;
+  margin-left: 8%;
   box-sizing: border-box;
 }
 
@@ -1408,18 +1423,18 @@ section.block.gp-section {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid var(--line);
+  border: 1.5px solid var(--brand-ink);
   border-radius: 999px;
-  background: #fff;
+  background: transparent;
   padding: 10px 22px;
   cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(11, 15, 20, 0.06);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .gp-network-btn:hover {
+  background: rgba(176, 144, 96, 0.08);
   border-color: var(--brand);
-  box-shadow: 0 2px 12px rgba(176, 144, 96, 0.2);
+  box-shadow: 0 2px 12px rgba(176, 144, 96, 0.15);
 }
 
 .gp-network-label {
@@ -1585,6 +1600,25 @@ section.block.gp-section {
   font-size: 14px;
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.75);
+}
+
+.cg-view-btn {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--brand);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: opacity 0.2s;
+  vertical-align: middle;
+}
+.cg-view-btn:hover {
+  opacity: 0.8;
 }
 
 .network-modal-list {
@@ -1759,18 +1793,18 @@ section.block.gp-section {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid var(--line);
+  border: 1.5px solid var(--brand-ink);
   border-radius: 999px;
-  background: #fff;
+  background: transparent;
   padding: 10px 22px;
   cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(11, 15, 20, 0.06);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ad-noblesse-btn:hover {
+  background: rgba(176, 144, 96, 0.08);
   border-color: var(--brand);
-  box-shadow: 0 2px 12px rgba(176, 144, 96, 0.2);
+  box-shadow: 0 2px 12px rgba(176, 144, 96, 0.15);
 }
 
 .ad-noblesse-label {
@@ -2066,23 +2100,23 @@ section.block.gp-section {
   margin-bottom: 0;
 }
 
-/* AND 토글 */
+/* NOW 토글 */
 .ct-and-btn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid var(--line);
+  border: 1.5px solid var(--brand-ink);
   border-radius: 999px;
-  background: #fff;
+  background: transparent;
   padding: 10px 22px;
   cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(11, 15, 20, 0.06);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ct-and-btn:hover {
+  background: rgba(176, 144, 96, 0.08);
   border-color: var(--brand);
-  box-shadow: 0 2px 12px rgba(176, 144, 96, 0.2);
+  box-shadow: 0 2px 12px rgba(176, 144, 96, 0.15);
 }
 
 .ct-and-label {
@@ -2478,19 +2512,38 @@ footer {
     height: auto;
     padding: 10px 0;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+  }
+
+  .brand {
+    order: 0;
+    justify-content: center;
+  }
+
+  .brand-logo {
+    height: 50px;
   }
 
   .menu {
+    order: 2;
     width: 100%;
     padding: 4px 0;
+    justify-content: center;
+  }
+
+  .menu button {
+    padding: 6px 8px;
+    font-size: 11px;
   }
 
   .cta {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    order: 1;
+    position: absolute;
+    top: 12px;
+    left: 0;
+    width: auto;
   }
 
   .hero-grid {
@@ -2558,16 +2611,31 @@ footer {
   }
 
   .gp-title {
-    font-size: 30px;
+    font-size: 26px;
+  }
+
+  .gp-body {
+    font-size: 14px;
+  }
+
+  .gp-list p {
+    font-size: 14px;
   }
 
   .aa-content {
     width: 100%;
+    margin-left: 0;
+    max-width: 100%;
     padding: 48% 28px 56px;
   }
 
   .aa-title {
-    font-size: 30px;
+    font-size: 24px;
+  }
+
+  .aa-desc {
+    font-size: 13px;
+    line-height: 1.7;
   }
 
   .about-overlay {
@@ -2587,7 +2655,20 @@ footer {
   }
 
   .about-title {
-    font-size: 42px;
+    font-size: 30px;
+  }
+
+  .about-body {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .founder-text {
+    font-size: 14px;
+  }
+
+  .founder-label {
+    font-size: 11px;
   }
 
   /* ADVISORY 모바일 */
@@ -2613,7 +2694,19 @@ footer {
   }
 
   .ad-title {
-    font-size: 30px;
+    font-size: 26px;
+  }
+
+  .ad-body {
+    font-size: 14px;
+  }
+
+  .ad-list p {
+    font-size: 14px;
+  }
+
+  .ad-footer {
+    font-size: 14px;
   }
 
   .ad-logos {
@@ -2643,7 +2736,15 @@ footer {
   }
 
   .ct-title {
-    font-size: 30px;
+    font-size: 26px;
+  }
+
+  .ct-body {
+    font-size: 14px;
+  }
+
+  .ct-footer {
+    font-size: 14px;
   }
 
   .ct-panel {
@@ -3223,7 +3324,7 @@ footer {
 
 /* Hero Section */
 .pn-hero {
-  padding: 140px 40px 60px;
+  padding: 100px 40px 40px;
   background: linear-gradient(135deg, #0b0f14 0%, #1a1f26 100%);
   text-align: center;
   color: #fff;
@@ -3357,6 +3458,20 @@ footer {
 .pn-content {
   padding: 60px 0 80px;
   min-height: 600px;
+}
+
+.pn-preparing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.pn-preparing-text {
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.05em;
+  font-weight: 500;
 }
 
 /* Golf Course Cards */
@@ -3757,7 +3872,7 @@ footer {
 
 @media (max-width: 920px) {
   .pn-hero {
-    padding: 120px 20px 50px;
+    padding: 80px 20px 30px;
   }
   
   .pn-hero-title {

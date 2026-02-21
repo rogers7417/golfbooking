@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import aboutImg from "../assets/products/about-bg.png";
+import aboutImg from "../assets/products/about-bg.jpg";
 import golfImg from "../assets/images/golf-8454586.jpg";
 import advisoryImg from "../assets/images/gallery-16037759.jpg";
 import contactImg from "../assets/images/culture-33144646.jpg";
@@ -118,29 +118,45 @@ const NetworkToggle: React.FC = () => {
             <h3 className="network-modal-title">회원 혜택 안내</h3>
 
             <div className="network-modal-section">
-              <h4 className="network-modal-subtitle">정기예약 대상</h4>
+              <h4 className="network-modal-subtitle">골프장 예약 서비스</h4>
               <p className="network-modal-desc">미술품 구매 또는 렌탈 가입 정규회원 대상</p>
               <ul className="network-modal-list">
-                <li>작품가 1억 이하: 월 1회</li>
-                <li>작품가 1억~3억: 월 2회</li>
-                <li>작품가 3억 이상: 월 3회 (주말 1회 포함)</li>
-                <li>작품가 10억 이상: 무제한 (주말 2회)</li>
+                <li>작품가 4천~1억이하 월1회</li>
+                <li>작품가 1억~2억이하 월2회</li>
+                <li>작품가 2억이상~3억이하 월3회(주말1회포함)</li>
+                <li>작품가 3억이상 월4회 (주말1회포함)</li>
               </ul>
             </div>
 
             <div className="network-modal-section">
               <h4 className="network-modal-subtitle">골프장 단체예약 서비스</h4>
-              <p className="network-modal-desc">1억 이상 구매/렌탈 정규회원의 연 부킹, 골프 행사 등 진행 (연회비)</p>
+              <p className="network-modal-desc">작품가 1억이상 구매/렌탈 정회원의 월례회, 골프단체행사 예약대행 (비용별도)</p>
             </div>
 
             <div className="network-modal-section">
               <h4 className="network-modal-subtitle">월별 예약 가능 골프장 리스트</h4>
-              <p className="network-modal-desc">국내 수도권 명문 골프장</p>
+              <p className="network-modal-desc">
+                국내 수도권 명문 골프장
+                <button
+                  className="cg-view-btn"
+                  onClick={() => window.location.href = "/private-n"}
+                >
+                  C.G 보기
+                </button>
+              </p>
             </div>
 
             <div className="network-modal-section">
               <h4 className="network-modal-subtitle">프라이빗 대회 일정</h4>
-              <p className="network-modal-desc">분기별 대회이며 회원과 회원 추천자만 참가 가능</p>
+              <p className="network-modal-desc">
+                아트N골프 네트워크&amp;이벤트대회 안내-정회원과 회원 추천만 참가가능
+                <button
+                  className="cg-view-btn"
+                  onClick={() => window.location.href = "/private-n"}
+                >
+                  MEMBERS
+                </button>
+              </p>
             </div>
 
             <div className="network-modal-section">
@@ -186,17 +202,17 @@ const AndToggle: React.FC = () => {
   return (
     <div className="ct-and">
       <button type="button" className="ct-and-btn" onClick={() => setOpen((v) => !v)}>
-        <span className="ct-and-label">&lt;AND&gt;</span>
+        <span className="ct-and-label">&lt;NOW&gt;</span>
         <span className={`ct-and-arrow${open ? " open" : ""}`}>›</span>
       </button>
       {open && (
         <div className="ct-and-body">
-          <p className="ct-and-title">회원 신청</p>
+          <p className="ct-and-title">알아보기</p>
           <form className="ct-form">
-            <input type="text" placeholder="성함" className="ct-input" />
-            <input type="email" placeholder="이메일" className="ct-input" />
-            <input type="tel" placeholder="연락처" className="ct-input" />
-            <textarea placeholder="신청 사유 및 소개" className="ct-textarea" rows={4} />
+            <input type="text" placeholder="NAME" className="ct-input" />
+            <input type="tel" placeholder="PHONE" className="ct-input" />
+            <input type="email" placeholder="E-Mail" className="ct-input" />
+            <textarea placeholder="Message" className="ct-textarea" rows={4} />
             <button type="submit" className="ct-submit">제출하기</button>
           </form>
         </div>
@@ -252,8 +268,8 @@ const HomePage: React.FC = () => {
             </h2>
 
             <p className="aa-desc">
-              작품 구매 &amp; 컬렉션 구축 · 법인 대상 아트 렌탈 · 개인 소장품의 관리 및 자산화 · 전환시장가치 기반 평가 시스템까지<br />
-              미술을 금융자산처럼 관리하는 새로운 기준을 제시합니다.
+              작품 구매 &amp; 컬렉션 구축 · 법인 대상 아트 렌탈,<br />
+              개인 소장품의 관리 및 자산화 · 전환시장가치 기반 평가 시스템까지
             </p>
             <ExhibitionEntry />
           </div>
