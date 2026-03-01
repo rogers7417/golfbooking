@@ -26,7 +26,6 @@ const PrivateNPage: React.FC = () => {
       {/* Hero Section */}
       <section className="pn-hero">
         <div className="pn-hero-content">
-          <h1 className="pn-hero-title">PRIVATE N</h1>
           <p className="pn-hero-subtitle">Members Only Access</p>
         </div>
       </section>

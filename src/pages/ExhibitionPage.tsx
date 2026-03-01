@@ -270,9 +270,16 @@ const ExhibitionPage: React.FC = () => {
                 </div>
               )}
 
-              {/* 문의하기 버튼 */}
+              {/* 문의하기 버튼 → 알아보기 모달 열기 */}
               <div className="ex-detail-actions">
-                <button className="ex-detail-inquiry" type="button">
+                <button
+                  className="ex-detail-inquiry"
+                  type="button"
+                  onClick={() => {
+                    setSelectedArtwork(null);
+                    window.dispatchEvent(new Event("open-inquiry"));
+                  }}
+                >
                   작품 문의하기
                 </button>
               </div>

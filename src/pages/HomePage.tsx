@@ -115,7 +115,7 @@ const NetworkToggle: React.FC = () => {
         <div className="network-modal-backdrop" onClick={() => setOpen(false)}>
           <div className="network-modal" onClick={(e) => e.stopPropagation()}>
             <button className="network-modal-close" onClick={() => setOpen(false)}>×</button>
-            <h3 className="network-modal-title">회원 혜택 안내</h3>
+            <h3 className="network-modal-title">회원 서비스 안내</h3>
 
             <div className="network-modal-section">
               <h4 className="network-modal-subtitle">골프장 예약 서비스</h4>
@@ -176,22 +176,14 @@ const NetworkToggle: React.FC = () => {
   );
 };
 
-/* ─── NOBLESSE 토글 (Advisory) ─── */
-const NoblesseToggle: React.FC = () => {
-  const [open, setOpen] = useState(false);
+/* ─── NOBLESSE 버튼 (Advisory) ─── */
+const NoblesseButton: React.FC = () => {
   return (
     <div className="ad-noblesse">
-      <button type="button" className="ad-noblesse-btn" onClick={() => setOpen((v) => !v)}>
+      <button type="button" className="ad-noblesse-btn">
         <span className="ad-noblesse-label">&lt;NOBLESSE&gt;</span>
-        <span className={`ad-noblesse-arrow${open ? " open" : ""}`}>›</span>
+        <span className="ad-noblesse-arrow">›</span>
       </button>
-      {open && (
-        <div className="ad-noblesse-body">
-          <p>품격은 과시가 아니라, 태도와 선택에서 완성됩니다.</p>
-          <p>아트 자산의 판단은 취향을 넘어 기준과 근거로 움직입니다.</p>
-          <p>모든 평가는 전문가의 근거 위에서 이루어집니다.</p>
-        </div>
-      )}
     </div>
   );
 };
@@ -244,7 +236,7 @@ const HomePage: React.FC = () => {
           <div className="founder-note">
             <p className="founder-label">Founder, Art N Golf</p>
             <p className="founder-text">
-              {`Art N Golf는 모두를 위한 서비스가 아닙니다.\n가치를 이해하는 소수와 함께,\n품격 있는 자산의 미래를 설계합니다.`}
+              {`ART N GOLF는 예술을 감상하는 영역에서 운용하는 영역으로,\n골프를 운동하는 영역에서 비즈니스 자산으로 진화시킵니다.\n우리는 실물 자산의 안정성과 디지털 자산의 확장성을 동시에 보유한\n대한민국 유일의 하이엔드 자산 플랫폼이 될 것입니다.`}
             </p>
           </div>
         </div>
@@ -328,7 +320,7 @@ const HomePage: React.FC = () => {
               <p>보험가·시장가·보관 상태 종합 평가까지</p>
             </div>
             <p className="ad-footer">모든 판단은 전문가의 근거 위에서 이루어집니다.</p>
-            <NoblesseToggle />
+            <NoblesseButton />
           </div>
         </section>
 
@@ -372,7 +364,9 @@ const HomePage: React.FC = () => {
               모든 이에게<br />열려 있지 않습니다.
             </h2>
             <p className="ct-body">
-              아트N골프는<br />소수만을 위한 구조를 지향합니다.
+              Art N Golf는 모두를 위한 서비스가 아닙니다.<br />
+              가치를 이해하는 소수와 함께,<br />
+              품격 있는 자산의 미래를 설계합니다.
             </p>
             <p className="ct-body">
               입장은 상담이 아니라 선별 과정입니다.<br />

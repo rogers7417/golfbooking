@@ -1253,35 +1253,36 @@ section.block.gp-section {
   background-repeat: no-repeat;
 }
 
-/* 오버레이: 양쪽 흰색 그라데이션 */
+/* 오버레이: 왼쪽 흰색 → 오른쪽 투명 (ART ASSET과 동일) */
 .gp-overlay {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 255, 255, 0.8) 15%,
-    transparent 35%,
-    transparent 65%,
-    rgba(255, 255, 255, 0.8) 85%,
-    rgba(255, 255, 255, 0.95) 100%
+    to left,
+    transparent 0%,
+    transparent 28%,
+    rgba(255, 255, 255, 0.7) 42%,
+    rgba(255, 255, 255, 0.92) 54%,
+    rgba(255, 255, 255, 1) 64%
   );
 }
 
-/* 텍스트 영역: 왼쪽 */
+/* 텍스트 영역: 중앙 왼쪽 배치 (ART ASSET과 동일) */
 .gp-content {
   position: relative;
   z-index: 2;
-  width: 50%;
+  width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 100px 32px 72px;
-  margin-left: 8%;
+  align-items: flex-start;
+  padding: 100px 0 72px;
   box-sizing: border-box;
+  margin-left: 18%;
+  max-width: 50%;
 }
 
 /* 라벨 행 */
@@ -1353,7 +1354,7 @@ section.block.gp-section {
   box-sizing: border-box;
 }
 
-/* 회원 혜택 안내 */
+/* 회원 서비스 안내 */
 .gp-benefits {
   width: 100%;
   max-height: 80vh;
@@ -1782,10 +1783,9 @@ section.block.gp-section {
 
 .ad-footer {
   margin: 0 0 32px;
-  font-size: 17px;
-  line-height: 1.7;
-  color: var(--brand-ink);
-  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.9;
+  color: #3a3f47;
 }
 
 /* NOBLESSE 토글 */
@@ -1922,9 +1922,9 @@ section.block.gp-section {
 
 .pnt-body {
   margin: 0 0 36px;
-  font-size: 15px;
+  font-size: 19px;
   line-height: 1.9;
-  color: var(--muted);
+  color: #3a3f47;
 }
 
 .pnt-btn {
@@ -2607,6 +2607,7 @@ footer {
   .gp-content {
     margin-left: 0;
     width: 100%;
+    max-width: 100%;
     padding: 48% 28px 56px;
   }
 
@@ -3345,10 +3346,11 @@ footer {
 
 .pn-hero-subtitle {
   margin: 0 0 12px;
-  font-size: 18px;
+  font-size: 42px;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .pn-hero-desc {

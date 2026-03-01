@@ -23,6 +23,16 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [location.pathname]);
 
+  // 커스텀 이벤트로 알아보기 모달 열기 (다른 페이지에서 호출 가능)
+  useEffect(() => {
+    const handleOpenInquiry = () => {
+      setIsSignupOpen(true);
+      setSignupStatus("idle");
+    };
+    window.addEventListener("open-inquiry", handleOpenInquiry);
+    return () => window.removeEventListener("open-inquiry", handleOpenInquiry);
+  }, []);
+
   const guestMenu = useMemo(
     () => [
       { href: "/#about", label: "ABOUT" },
