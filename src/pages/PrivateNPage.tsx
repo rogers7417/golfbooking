@@ -4,6 +4,19 @@ type MainCategory = "golf" | "shop" | "members" | "guest";
 
 const PrivateNPage: React.FC = () => {
   const [mainCategory, setMainCategory] = useState<MainCategory>("golf");
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
+  const [showGuestPopup, setShowGuestPopup] = useState(false);
+
+  const handleTabClick = (cat: MainCategory) => {
+    setMainCategory(cat);
+    if (cat === "guest") {
+      setShowGuestPopup(true);
+      setShowLoginAlert(false);
+    } else {
+      setShowLoginAlert(true);
+      setShowGuestPopup(false);
+    }
+  };
 
   return (
     <div className="private-n-page">
@@ -36,25 +49,25 @@ const PrivateNPage: React.FC = () => {
           <div className="pn-main-category">
             <button
               className={`pn-main-tab ${mainCategory === "golf" ? "active" : ""}`}
-              onClick={() => setMainCategory("golf")}
+              onClick={() => handleTabClick("golf")}
             >
               C.C / G.C
             </button>
             <button
               className={`pn-main-tab ${mainCategory === "shop" ? "active" : ""}`}
-              onClick={() => setMainCategory("shop")}
+              onClick={() => handleTabClick("shop")}
             >
               ANG SHOP
             </button>
             <button
               className={`pn-main-tab ${mainCategory === "members" ? "active" : ""}`}
-              onClick={() => setMainCategory("members")}
+              onClick={() => handleTabClick("members")}
             >
               MEMBERS
             </button>
             <button
               className={`pn-main-tab ${mainCategory === "guest" ? "active" : ""}`}
-              onClick={() => setMainCategory("guest")}
+              onClick={() => handleTabClick("guest")}
             >
               GUEST
             </button>
@@ -65,11 +78,41 @@ const PrivateNPage: React.FC = () => {
       {/* Content Area */}
       <section className="pn-content">
         <div className="pn-container">
-          <div className="pn-preparing">
-            <p className="pn-preparing-text">준비 중입니다</p>
-          </div>
         </div>
       </section>
+
+      {/* 로그인 안내 모달 */}
+      {showLoginAlert && (
+        <div className="pn-login-alert-backdrop" onClick={() => setShowLoginAlert(false)}>
+          <div className="pn-login-alert" onClick={(e) => e.stopPropagation()}>
+            <p className="pn-login-alert-text">로그인하세요</p>
+            <button
+              className="pn-login-alert-btn"
+              onClick={() => setShowLoginAlert(false)}
+            >
+              확인
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* GUEST 프로그램 신청 팝업 */}
+      {showGuestPopup && (
+        <div className="pn-login-alert-backdrop" onClick={() => setShowGuestPopup(false)}>
+          <div className="pn-guest-popup" onClick={(e) => e.stopPropagation()}>
+            <button className="pn-guest-popup-close" onClick={() => setShowGuestPopup(false)}>✕</button>
+            <h3 className="pn-guest-popup-title">아트N골프 프로그램 신청하기</h3>
+            <p className="pn-guest-popup-fee">* 연회비 200만원 *</p>
+            <ol className="pn-guest-popup-list">
+              <li>골프월례회 참석 신청</li>
+              <li>골프 프로그램 신청</li>
+              <li>대회 참석 신청</li>
+              <li>미술전시회 신청</li>
+              <li>ANG 옥션디너 신청</li>
+            </ol>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

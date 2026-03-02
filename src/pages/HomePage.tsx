@@ -176,14 +176,25 @@ const NetworkToggle: React.FC = () => {
   );
 };
 
-/* ─── NOBLESSE 버튼 (Advisory) ─── */
-const NoblesseButton: React.FC = () => {
+/* ─── NOBLESSE 팝업 (Advisory) ─── */
+import noblesseImg from "../assets/logo/KakaoTalk_Photo_2026-03-02-15-07-56.jpeg";
+
+const NoblessePopup: React.FC = () => {
+  const [open, setOpen] = useState(false);
   return (
     <div className="ad-noblesse">
-      <button type="button" className="ad-noblesse-btn">
+      <button type="button" className="ad-noblesse-btn" onClick={() => setOpen(true)}>
         <span className="ad-noblesse-label">&lt;NOBLESSE&gt;</span>
         <span className="ad-noblesse-arrow">›</span>
       </button>
+      {open && (
+        <div className="noblesse-modal-backdrop" onClick={() => setOpen(false)}>
+          <div className="noblesse-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="noblesse-modal-close" onClick={() => setOpen(false)}>✕</button>
+            <img src={noblesseImg} alt="Noblesse Partner" className="noblesse-modal-img" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -320,7 +331,7 @@ const HomePage: React.FC = () => {
               <p>보험가·시장가·보관 상태 종합 평가까지</p>
             </div>
             <p className="ad-footer">모든 판단은 전문가의 근거 위에서 이루어집니다.</p>
-            <NoblesseButton />
+            <NoblessePopup />
           </div>
         </section>
 

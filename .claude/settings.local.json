@@ -18,7 +18,8 @@
       "Bash(npm install:*)",
       "Bash(git -C /Users/torder/workspace/golf-app log --oneline -20)",
       "Bash(sips:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(sort:*)"
     ]
   }
 }
