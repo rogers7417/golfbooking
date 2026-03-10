@@ -205,7 +205,7 @@ const AndToggle: React.FC = () => {
   return (
     <div className="ct-and">
       <button type="button" className="ct-and-btn" onClick={() => setOpen((v) => !v)}>
-        <span className="ct-and-label">&lt;NOW&gt;</span>
+        <span className="ct-and-label">NOW</span>
         <span className={`ct-and-arrow${open ? " open" : ""}`}>›</span>
       </button>
       {open && (
