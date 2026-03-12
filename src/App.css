@@ -1486,32 +1486,38 @@ section.block.gp-section {
 .gp-network-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  border: 1.5px solid var(--brand-ink);
-  border-radius: 999px;
-  background: transparent;
-  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  background: var(--brand);
+  padding: 14px 32px;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(176, 144, 96, 0.3);
 }
 
 .gp-network-btn:hover {
-  background: rgba(176, 144, 96, 0.08);
-  border-color: var(--brand);
-  box-shadow: 0 2px 12px rgba(176, 144, 96, 0.15);
+  background: #9f8060;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(176, 144, 96, 0.4);
+}
+
+.gp-network-btn:active {
+  transform: translateY(0);
 }
 
 .gp-network-label {
   font-size: 13px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--brand-ink);
+  color: #fff;
   font-weight: 600;
 }
 
 .gp-network-arrow {
   font-size: 18px;
-  color: var(--brand);
+  color: rgba(255, 255, 255, 0.7);
   transition: transform 0.25s ease;
   line-height: 1;
 }
@@ -1855,32 +1861,38 @@ section.block.gp-section {
 .ad-noblesse-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  border: 1.5px solid var(--brand-ink);
-  border-radius: 999px;
-  background: transparent;
-  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  background: var(--brand);
+  padding: 14px 32px;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(176, 144, 96, 0.3);
 }
 
 .ad-noblesse-btn:hover {
-  background: rgba(176, 144, 96, 0.08);
-  border-color: var(--brand);
-  box-shadow: 0 2px 12px rgba(176, 144, 96, 0.15);
+  background: #9f8060;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(176, 144, 96, 0.4);
+}
+
+.ad-noblesse-btn:active {
+  transform: translateY(0);
 }
 
 .ad-noblesse-label {
   font-size: 13px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--brand-ink);
+  color: #fff;
   font-weight: 600;
 }
 
 .ad-noblesse-arrow {
   font-size: 18px;
-  color: var(--brand);
+  color: rgba(255, 255, 255, 0.7);
   transition: transform 0.25s ease;
   line-height: 1;
 }
@@ -2471,134 +2483,109 @@ footer {
   pointer-events: auto;
 }
 
-.footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 40px;
-}
-
-/* 상단 네비게이션 링크 */
-.footer-nav {
+/* 1줄 레이아웃 */
+.footer-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  padding: 24px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 40px;
+  gap: 40px;
 }
 
-.footer-nav-rep {
+.footer-col {
   display: flex;
-  align-items: center;
-  gap: 0;
-  font-size: 13px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.55);
+  flex-direction: column;
 }
 
-.footer-nav-brand {
+/* 왼쪽: 브랜드 + 대표 */
+.footer-col-brand {
+  gap: 6px;
+  min-width: 140px;
+}
+
+.footer-brand {
   font-size: 15px;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.9);
   letter-spacing: 0.04em;
 }
 
-.footer-nav-sep {
-  display: inline-block;
-  width: 1px;
-  height: 12px;
-  background: rgba(255, 255, 255, 0.3);
-  margin: 0 12px;
+.footer-rep {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
 }
 
-.footer-nav-links {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.footer-nav a {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.footer-nav a:hover {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.footer-nav-bold {
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-/* 중간 정보 영역 */
-.footer-info {
-  padding: 24px 0;
-}
-
-.footer-info p {
-  margin: 0 0 6px;
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
+/* 가운데: 회사 정보 */
+.footer-col-info p {
+  margin: 0 0 2px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
   line-height: 1.8;
 }
 
-.footer-info p:last-child {
+.footer-col-info p:last-child {
   margin-bottom: 0;
 }
 
 .footer-info-sep {
   display: inline-block;
   width: 1px;
-  height: 11px;
-  background: rgba(255, 255, 255, 0.25);
-  margin: 0 14px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 10px;
   vertical-align: middle;
 }
 
-/* 하단 카피라이트 */
-.footer-bottom {
-  padding: 20px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+/* 오른쪽: 카피라이트 + 링크 */
+.footer-col-right {
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 200px;
 }
 
-.footer-bottom p {
+.footer-copy {
   margin: 0;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.35);
   letter-spacing: 0.02em;
 }
 
+.footer-links {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-links a {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.footer-link-bold {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
 @media (max-width: 768px) {
-  .footer-inner {
-    padding: 0 20px;
-  }
-
-  .footer-nav {
+  .footer-row {
     flex-direction: column;
+    gap: 20px;
+    padding: 24px 20px;
+  }
+
+  .footer-col-right {
     align-items: flex-start;
-    gap: 12px;
-  }
-
-  .footer-nav-rep {
-    font-size: 13px;
-  }
-
-  .footer-nav-links {
-    gap: 16px;
-  }
-
-  .footer-nav a {
-    font-size: 12px;
-  }
-
-  .footer-info p {
-    font-size: 12px;
   }
 
   .footer-info-sep {
-    margin: 0 8px;
+    margin: 0 6px;
   }
 }
 

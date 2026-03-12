@@ -107,7 +107,6 @@ const NetworkToggle: React.FC = () => {
       <div className="gp-network">
         <button type="button" className="gp-network-btn" onClick={() => setOpen(true)}>
           <span className="gp-network-label">NETWORK</span>
-          <span className="gp-network-arrow">›</span>
         </button>
       </div>
 
@@ -184,8 +183,7 @@ const NoblessePopup: React.FC = () => {
   return (
     <div className="ad-noblesse">
       <button type="button" className="ad-noblesse-btn" onClick={() => setOpen(true)}>
-        <span className="ad-noblesse-label">&lt;NOBLESSE&gt;</span>
-        <span className="ad-noblesse-arrow">›</span>
+        <span className="ad-noblesse-label">NOBLESSE</span>
       </button>
       {open && (
         <div className="noblesse-modal-backdrop" onClick={() => setOpen(false)}>
@@ -199,27 +197,17 @@ const NoblessePopup: React.FC = () => {
   );
 };
 
-/* ─── AND 토글 (Contact) ─── */
+/* ─── AND 버튼 (Contact) ─── */
 const AndToggle: React.FC = () => {
-  const [open, setOpen] = useState(false);
   return (
     <div className="ct-and">
-      <button type="button" className="ct-and-btn" onClick={() => setOpen((v) => !v)}>
+      <button
+        type="button"
+        className="ct-and-btn"
+        onClick={() => window.dispatchEvent(new Event("open-inquiry"))}
+      >
         <span className="ct-and-label">NOW</span>
-        <span className={`ct-and-arrow${open ? " open" : ""}`}>›</span>
       </button>
-      {open && (
-        <div className="ct-and-body">
-          <p className="ct-and-title">알아보기</p>
-          <form className="ct-form">
-            <input type="text" placeholder="NAME" className="ct-input" />
-            <input type="tel" placeholder="PHONE" className="ct-input" />
-            <input type="email" placeholder="E-Mail" className="ct-input" />
-            <textarea placeholder="Message" className="ct-textarea" rows={4} />
-            <button type="submit" className="ct-submit">제출하기</button>
-          </form>
-        </div>
-      )}
     </div>
   );
 };
