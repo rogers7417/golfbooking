@@ -101,14 +101,14 @@ const PrivateNPage: React.FC = () => {
         <div className="pn-login-alert-backdrop" onClick={() => setShowGuestPopup(false)}>
           <div className="pn-guest-popup" onClick={(e) => e.stopPropagation()}>
             <button className="pn-guest-popup-close" onClick={() => setShowGuestPopup(false)}>✕</button>
-            <h3 className="pn-guest-popup-title">아트N골프 프로그램 신청하기</h3>
+            <h3 className="pn-guest-popup-title">프로그램 신청하기</h3>
             <p className="pn-guest-popup-fee">* 연회비 200만원 *</p>
             <ol className="pn-guest-popup-list">
-              <li>골프월례회 참석 신청</li>
-              <li>골프 프로그램 신청</li>
-              <li>대회 참석 신청</li>
-              <li>미술전시회 신청</li>
-              <li>ANG 옥션디너 신청</li>
+              <li>네트워크 골프월례회 참석</li>
+              <li>골프 레슨,투어 참석</li>
+              <li>프라이빗 골프대회 참석</li>
+              <li>미술전시회 참석</li>
+              <li>ANG 옥션디너 참석</li>
             </ol>
           </div>
         </div>

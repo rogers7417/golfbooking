@@ -476,35 +476,21 @@ const App: React.FC = () => {
       )}
 
       <footer>
-        <div className="footer-row">
-          <div className="footer-col footer-col-brand">
-            <strong className="footer-brand">ART N GOLF</strong>
-            <span className="footer-rep">총괄대표 안정혁</span>
-          </div>
-
-          <div className="footer-col footer-col-info">
-            <p>
-              <span>TEL 02-000-0000</span>
-              <span className="footer-info-sep" />
-              <span>MAIL ang@artngolf.com</span>
-            </p>
-            <p>
-              <span>주식회사 지오디에스</span>
-              <span className="footer-info-sep" />
-              <span>서울시 강남구 테헤란로4길 6 304</span>
-            </p>
-            <p>
-              <span>대표 이은경</span>
-              <span className="footer-info-sep" />
-              <span>사업자등록번호 807 86 03004</span>
-            </p>
-          </div>
-
-          <div className="footer-col footer-col-right">
-            <p className="footer-copy">ⓒ 2026 ArtNGolf. All Rights Reserved.</p>
+        <div className="footer-wrap">
+          <div className="footer-top">
             <div className="footer-links">
               <a href="#" onClick={(e) => { e.preventDefault(); setIsTermsOpen(true); }}>이용약관</a>
               <a href="#" className="footer-link-bold" onClick={(e) => { e.preventDefault(); setIsPrivacyOpen(true); }}>개인정보처리방침</a>
+            </div>
+          </div>
+          <div className="footer-main">
+            <div className="footer-main-left">
+              <strong className="footer-brand">ART N GOLF</strong>
+              <span className="footer-rep">총괄대표 안정혁</span>
+            </div>
+            <div className="footer-main-center">
+              <p>서울시 강남구 테헤란로4길 6 304 주식회사 지오디에스 대표 이은경 사업자등록번호 807 86 03004 전화번호 000-0000-0000</p>
+              <p className="footer-center-copy">ⓒ 2026 ArtNGolf. All Rights Reserved.</p>
             </div>
           </div>
         </div>
