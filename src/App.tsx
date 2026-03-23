@@ -489,7 +489,7 @@ const App: React.FC = () => {
               <span className="footer-rep">총괄대표 안정혁</span>
             </div>
             <div className="footer-main-center">
-              <p>서울시 강남구 테헤란로4길 6 304 주식회사 지오디에스 대표 이은경 사업자등록번호 807 86 03004 전화번호 000-0000-0000</p>
+              <p>서울시 강남구 테헤란로4길 6 304 주식회사 지오디에스 대표 이은경 사업자등록번호 807 86 03004 이메일 master@gods.it.kr</p>
               <p className="footer-center-copy">ⓒ 2026 ArtNGolf. All Rights Reserved.</p>
             </div>
           </div>
