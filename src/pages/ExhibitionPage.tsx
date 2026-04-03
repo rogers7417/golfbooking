@@ -108,7 +108,14 @@ const ExhibitionPage: React.FC = () => {
     return () => window.removeEventListener("keydown", handleKey);
   }, [selectedArtwork, closeModal]);
 
-  console.log("ExhibitionPage rendered", artworks.length, "artworks");
+  useEffect(() => {
+    if (selectedArtwork) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [selectedArtwork]);
 
   return (
     <>
@@ -163,6 +170,7 @@ const ExhibitionPage: React.FC = () => {
                 <img
                   src={imageMap[artwork.image]}
                   alt={`${artwork.artist} - ${artwork.title}`}
+                  loading="lazy"
                 />
               </div>
               <div className="exhibition-card-info">

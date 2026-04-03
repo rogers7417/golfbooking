@@ -46,6 +46,7 @@ const ArtSlider: React.FC = () => {
           src={src}
           alt=""
           className="aa-bg-img"
+          loading="lazy"
           style={{ opacity: i === cur ? 1 : 0 }}
         />
       ))}
